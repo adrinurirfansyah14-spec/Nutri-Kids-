@@ -6,33 +6,24 @@ Selamat datang di proyek frontend **GetInvestor**! Proyek ini dibangun menggunak
 
 ## 📁 Penjelasan Struktur Folder
 
-Berikut adalah susunan folder di dalam direktori `frontend/`:
+Berikut adalah susunan folder di dalam direktori proyek:
 
 ```text
-frontend/
+Nutri-Kids-/
 ├── public/                 # File aset statis publik (favicon, file publik)
 ├── src/
 │   ├── assets/             # Gambar lokal, logo, ikon SVG/PNG
-│   ├── components/         # Komponen reusable (balok UI yang bisa dipakai berulang)
-│   │   ├── Navbar.jsx      # Komponen navigasi atas
-│   │   ├── Navbar.css      # Desain styling navigasi
-│   │   ├── Footer.jsx      # Komponen footer bawah
-│   │   ├── Footer.css      # Desain styling footer
-│   │   ├── InvestorCard.jsx# Komponen kartu investor (menerima Props)
-│   │   └── InvestorCard.css# Desain styling kartu
+│   ├── components/         # Komponen reusable (Navbar, Footer, Card, dll.)
 │   ├── pages/              # Komponen halaman utuh
-│   │   ├── Home.jsx        # Halaman beranda utama
-│   │   └── Home.css        # Desain styling halaman beranda
 │   ├── services/           # Data & integrasi Backend/API
-│   │   └── mockData.js     # Data dummy investor untuk latihan
-│   ├── styles/             # Pengaturan gaya global
-│   │   └── variables.css   # Variabel warna, font, dan jarak (Design Token)
-│   ├── App.jsx             # Komponen induk (merangkai Navbar, Halaman, & Footer)
-│   ├── App.css             # Styling umum layout App
-│   ├── index.css           # Reset CSS, font Plus Jakarta Sans, dan styling dasar
-│   └── main.jsx            # Entry point React (menghubungkan ke index.html)
+│   ├── styles/             # Pengaturan gaya global (variables.css)
+│   ├── App.jsx             # Komponen induk
+│   ├── App.css             # Styling layout App & Hero
+│   ├── index.css           # Reset CSS dan styling dasar
+│   └── main.jsx            # Entry point React
+├── dist/                   # Folder hasil build produksi
 ├── index.html              # Template HTML utama
-├── package.json            # Daftar pustaka (dependencies) dan perintah script
+├── package.json            # Daftar pustaka (dependencies) dan script
 ├── vite.config.js          # Konfigurasi bundler Vite
 └── PANDUAN_PEMULA.md       # Panduan ini
 ```
@@ -41,14 +32,9 @@ frontend/
 
 ## ⚡ Cara Menjalankan Proyek
 
-Buka terminal di VS Code / editor Anda, lalu jalankan perintah berikut:
+Buka terminal langsung di folder ini (`Nutri-Kids-`), lalu jalankan:
 
-### 1. Masuk ke folder frontend (jika belum berada di dalamnya):
-```bash
-cd frontend
-```
-
-### 2. Jalankan server lokal (Development Mode):
+### Jalankan server lokal (Development Mode):
 ```bash
 npm run dev
 ```

@@ -1,16 +1,17 @@
-# GetInvestor Frontend
+# NutriKids - Peduli Gizi Anak
 
-Aplikasi frontend React berbasis Vite untuk platform **GetInvestor**. Proyek ini disiapkan dengan struktur folder yang bersih, rapi, dan mudah dipahami oleh pemula (*beginner-friendly*).
+Aplikasi web pencegahan malnutrisi dan edukasi gizi anak berbasis **React** & **Vite**.
 
 ## Menjalankan Proyek
 
+Buka terminal di folder ini (`Nutri-Kids-`), lalu jalankan:
+
 ```bash
-cd frontend
 npm install   # jika belum terpasang
 npm run dev   # menjalankan development server
 ```
 
 ## Panduan Lengkap untuk Pemula
 
-Silakan baca dokumentasi lengkap mengenai struktur folder, konsep React (Component, Props, State), dan cara menambah fitur baru pada file:
-👉 **[PANDUAN_PEMULA.md](./frontend/PANDUAN_PEMULA.md)**
+Silakan baca dokumentasi struktur folder dan konsep dasar pada file:
+👉 **[PANDUAN_PEMULA.md](./PANDUAN_PEMULA.md)**
