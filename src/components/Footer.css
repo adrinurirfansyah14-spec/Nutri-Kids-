@@ -1,0 +1,84 @@
+/* ==========================================================================
+   FOOTER STYLING
+   Folder: src/components/Footer.css
+   ========================================================================== */
+
+.footer-wrapper {
+  background-color: var(--secondary);
+  color: #94a3b8;
+  margin-top: auto;
+  padding-top: var(--space-12);
+  border-top: 1px solid #334155;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+
+.footer-brand {
+  max-width: 360px;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--text-inverse);
+  margin-bottom: var(--space-3);
+}
+
+.footer-bio {
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  color: #94a3b8;
+}
+
+.footer-links-group {
+  display: flex;
+  gap: var(--space-12);
+}
+
+.links-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.links-column h4 {
+  color: var(--text-inverse);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-2);
+}
+
+.links-column a {
+  font-size: var(--font-size-sm);
+  color: #94a3b8;
+  transition: color var(--transition-fast);
+}
+
+.links-column a:hover {
+  color: var(--text-inverse);
+}
+
+.footer-bottom {
+  border-top: 1px solid #1e293b;
+  padding: var(--space-4) 0;
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: #64748b;
+}
+
+@media (max-width: 640px) {
+  .footer-links-group {
+    gap: var(--space-6);
+  }
+}

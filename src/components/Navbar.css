@@ -1,0 +1,156 @@
+/* ==========================================================================
+   NAVBAR STYLING
+   Folder: src/components/Navbar.css
+   ========================================================================== */
+
+.navbar-wrapper {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.92);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+/* Logo Brand */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+}
+
+.brand-icon {
+  font-size: 1.5rem;
+}
+
+.brand-text {
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.brand-text .highlight {
+  color: var(--primary);
+}
+
+/* Links */
+.navbar-links {
+  display: flex;
+  list-style: none;
+  gap: var(--space-8);
+}
+
+.navbar-links a {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  position: relative;
+  padding: var(--space-2) 0;
+}
+
+.navbar-links a:hover {
+  color: var(--primary);
+}
+
+.navbar-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: width var(--transition-fast);
+}
+
+.navbar-links a:hover::after {
+  width: 100%;
+}
+
+/* Actions */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.btn-secondary {
+  padding: 8px 18px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  background: transparent;
+  transition: all var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+.btn-primary {
+  padding: 9px 20px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-inverse);
+  background-color: var(--primary);
+  box-shadow: 0 4px 12px var(--primary-glow);
+  transition: all var(--transition-fast);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px var(--primary-glow);
+}
+
+/* Hamburger button untuk Mobile */
+.hamburger-btn {
+  display: none;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  background: none;
+  padding: var(--space-2);
+}
+
+/* Responsive / Mobile */
+@media (max-width: 840px) {
+  .hamburger-btn {
+    display: block;
+  }
+
+  .navbar-actions {
+    display: none;
+  }
+
+  .navbar-links {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    flex-direction: column;
+    padding: var(--space-6);
+    gap: var(--space-4);
+    display: none;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .navbar-links.active {
+    display: flex;
+  }
+}
