@@ -13,4 +13,4 @@ npm run dev   # menjalankan development server
 ## Panduan Lengkap untuk Pemula
 
 Silakan baca dokumentasi lengkap mengenai struktur folder, konsep React (Component, Props, State), dan cara menambah fitur baru pada file:
-👉 **[PANDUAN_PEMULA.md](./PANDUAN_PEMULA.md)**
+👉 **[PANDUAN_PEMULA.md](./frontend/PANDUAN_PEMULA.md)**
