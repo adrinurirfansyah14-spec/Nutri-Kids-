@@ -1,0 +1,348 @@
+/* ==========================================================================
+   FOOD RECOMMENDATIONS STYLES
+   Folder: src/components/FoodRecommendations.css
+   ========================================================================== */
+
+.food-rec-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding-bottom: 5rem;
+}
+
+.food-rec-header {
+  background: linear-gradient(135deg, #fdf6ec 0%, #e8f8f2 100%);
+  padding: 4rem 1.5rem 3rem;
+  text-align: center;
+}
+
+.food-rec-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.food-rec-tag {
+  display: inline-block;
+  background-color: #e6f9f3;
+  color: #0d9488;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.35rem 0.95rem;
+  border-radius: 9999px;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.food-rec-title {
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.food-rec-subtitle {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #475569;
+  max-width: 720px;
+  margin: 0 auto 2rem;
+}
+
+.food-search-box {
+  max-width: 580px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.15rem;
+  color: #94a3b8;
+}
+
+.food-search-input {
+  width: 100%;
+  padding: 0.95rem 1.25rem 0.95rem 3.25rem;
+  border-radius: 9999px;
+  border: 1.5px solid #cbd5e1;
+  background-color: #ffffff;
+  font-size: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.food-search-input:focus {
+  border-color: #30c596;
+  box-shadow: 0 8px 24px rgba(48, 197, 150, 0.2);
+}
+
+/* Category Tabs */
+.category-tabs-scroll {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding: 2rem 0 1.5rem;
+  scrollbar-width: thin;
+}
+
+.cat-pill-btn {
+  white-space: nowrap;
+  padding: 0.6rem 1.35rem;
+  border-radius: 9999px;
+  font-size: 0.925rem;
+  font-weight: 700;
+  background-color: #ffffff;
+  color: #475569;
+  border: 1.5px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cat-pill-btn:hover {
+  border-color: #97c459;
+  color: #111827;
+}
+
+.cat-pill-btn.active {
+  background-color: #97c459;
+  color: #111827;
+  border-color: #97c459;
+  box-shadow: 0 6px 16px rgba(151, 196, 89, 0.35);
+}
+
+/* Recipes Grid */
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.75rem;
+  margin-bottom: 3.5rem;
+}
+
+.recipe-card {
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 1.85rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+  border-color: #bbf7d0;
+}
+
+.recipe-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.recipe-badge-age {
+  background-color: #f1f5f9;
+  color: #334155;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: 8px;
+}
+
+.recipe-badge-tag {
+  background-color: #ecfdf5;
+  color: #059669;
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border-radius: 8px;
+}
+
+.recipe-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+  line-height: 1.35;
+}
+
+.recipe-benefits {
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.recipe-nutrition-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.2fr;
+  background-color: #f8fafc;
+  border-radius: 14px;
+  padding: 0.75rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid #f1f5f9;
+}
+
+.nutri-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.nutri-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.nutri-val {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.recipe-card-footer {
+  margin-top: auto;
+}
+
+.btn-view-recipe {
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Callout Donasi */
+.food-donation-callout {
+  background-color: #30c596;
+  border-radius: 24px;
+  padding: 2.5rem;
+  color: #064e3b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  box-shadow: 0 12px 32px rgba(48, 197, 150, 0.25);
+}
+
+.callout-text h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #064e3b;
+  margin-bottom: 0.5rem;
+}
+
+.callout-text p {
+  color: #ffffff;
+  font-weight: 500;
+  max-width: 680px;
+}
+
+.btn-callout-donate {
+  padding: 0.85rem 2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Recipe Detail Modal */
+.recipe-modal-card {
+  max-width: 600px;
+}
+
+.recipe-modal-header {
+  margin-bottom: 1.5rem;
+}
+
+.modal-recipe-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0.5rem 0 0.85rem;
+}
+
+.modal-nutri-badges {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.modal-nutri-badges span {
+  background-color: #f1f5f9;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.recipe-section-block {
+  margin-bottom: 1.5rem;
+}
+
+.recipe-section-block h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 0.65rem;
+}
+
+.ingredients-list,
+.steps-list {
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.recipe-tips-alert {
+  background-color: #f0fdf4;
+  border-left: 4px solid #16a34a;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.recipe-tips-alert strong {
+  color: #15803d;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.recipe-tips-alert p {
+  color: #166534;
+  font-size: 0.925rem;
+  line-height: 1.5;
+}
+
+.no-recipes-box {
+  background-color: #ffffff;
+  padding: 3rem;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.no-recipes-box p {
+  font-size: 1.1rem;
+  color: #64748b;
+  margin-bottom: 1.25rem;
+}

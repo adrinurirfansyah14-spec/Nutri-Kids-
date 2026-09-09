@@ -1,75 +1,59 @@
 /* ==========================================================================
-   CSS VARIABLES & DESIGN TOKENS
+   NUTRIKIDS DESIGN TOKENS & FIGMA COLOR PALETTE
    Folder: src/styles/variables.css
-   Fungsi: Menyimpan palet warna, tipografi, jarak (spacing), dan efek
-   yang dapat digunakan di seluruh komponen proyek dengan var(--nama-variabel).
    ========================================================================== */
 
 :root {
-  /* Brand & Theme Colors (Nuansa Biru Modern & Hijau Sukses Finansial) */
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-light: #eff6ff;
-  --primary-glow: rgba(37, 99, 235, 0.25);
-
-  --secondary: #0f172a;
-  --secondary-hover: #1e293b;
-
-  --accent: #10b981;
-  --accent-light: #ecfdf5;
-  --accent-glow: rgba(16, 185, 129, 0.2);
-
-  /* Neutrals & Backgrounds */
-  --bg-main: #f8fafc;
-  --bg-surface: #ffffff;
-  --bg-surface-elevated: #ffffff;
-  --border-color: #e2e8f0;
-  --border-focus: #3b82f6;
-
-  /* Typography Colors */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  /* Exact Figma Brand Color Palette (Frame 1) */
+  --color-teal: #30C596;           /* Teal Primary (Banner donasi & aksen) */
+  --color-teal-dark: #24a87e;
+  --color-teal-light: #e6f9f3;
+  
+  --color-leaf: #29A125;           /* Leaf Green (Elemen hijau pekat) */
+  --color-leaf-dark: #1f821c;
+  
+  --color-lime: #97C459;           /* Lime / Avocado Green (Tombol utama & highlight judul) */
+  --color-lime-hover: #84b049;
+  --color-lime-light: #f2f8ea;
+  
+  --color-orange: #D85A30;         /* Coral Orange (Tombol Donasi) */
+  --color-orange-hover: #bf4a23;
+  --color-orange-light: #fbeee8;
+  
+  --color-cream: #FDF6EC;          /* Warm Cream / Almond (Background gradasi Hero) */
+  --color-cream-light: #fffdfa;
+  
+  --color-forest: #0A2316;         /* Forest Dark Green (Footer) */
+  --color-forest-surface: #0f3322;
+  --color-forest-light: #16462f;
+  
+  /* Text Colors */
+  --text-dark: #111827;
+  --text-body: #475569;
+  --text-muted: #64748b;
   --text-inverse: #ffffff;
-
-  /* Typography Settings */
+  
+  /* Backgrounds */
+  --bg-page: #ffffff;
+  --bg-card: #ffffff;
+  --bg-input: #f1f5f9;
+  
+  /* Typography */
   --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-size-xs: 0.75rem;   /* 12px */
-  --font-size-sm: 0.875rem;  /* 14px */
-  --font-size-base: 1rem;    /* 16px */
-  --font-size-lg: 1.125rem;  /* 18px */
-  --font-size-xl: 1.25rem;   /* 20px */
-  --font-size-2xl: 1.5rem;   /* 24px */
-  --font-size-3xl: 2rem;     /* 32px */
-  --font-size-4xl: 2.5rem;   /* 40px */
-
-  /* Spacing */
-  --space-1: 0.25rem; /* 4px */
-  --space-2: 0.5rem;  /* 8px */
-  --space-3: 0.75rem; /* 12px */
-  --space-4: 1rem;    /* 16px */
-  --space-5: 1.25rem; /* 20px */
-  --space-6: 1.5rem;  /* 24px */
-  --space-8: 2rem;    /* 32px */
-  --space-10: 2.5rem; /* 40px */
-  --space-12: 3rem;   /* 48px */
-  --space-16: 4rem;   /* 64px */
-
+  
   /* Border Radius */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-full: 9999px;
-
-  /* Shadows (Elevations) */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
-  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 9999px;
+  
+  /* Shadows */
+  --shadow-card: 0 8px 24px -4px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --shadow-hover: 0 16px 32px -6px rgba(15, 23, 42, 0.1), 0 6px 12px -2px rgba(15, 23, 42, 0.06);
+  --shadow-modal: 0 24px 48px -12px rgba(10, 35, 22, 0.25);
+  
   /* Transitions */
   --transition-fast: 0.15s ease;
-  --transition-normal: 0.25s ease;
-  --transition-slow: 0.4s ease;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
