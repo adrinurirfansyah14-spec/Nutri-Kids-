@@ -18,6 +18,7 @@ const WHO_BOYS = {
   48: [16.3, 1.9, 103.3, 4.1],
   60: [18.3, 2.3, 110.0, 4.6],
   72: [20.5, 2.7, 115.5, 5.0],
+  75: [21.1, 2.8, 117.0, 5.1],
   84: [22.9, 3.2, 121.7, 5.4],
   96: [25.6, 3.8, 127.3, 5.9],
   108: [28.6, 4.5, 132.6, 6.4],
@@ -36,6 +37,7 @@ const WHO_GIRLS = {
   48: [16.1, 2.0, 102.7, 4.2],
   60: [18.2, 2.4, 109.4, 4.7],
   72: [20.2, 2.8, 115.1, 5.1],
+  75: [20.7, 2.9, 116.5, 5.2],
   84: [22.4, 3.4, 120.8, 5.6],
   96: [25.0, 4.1, 126.6, 6.1],
   108: [28.2, 4.9, 132.5, 6.7],
@@ -81,7 +83,13 @@ function getReferenceData(gender, ageMonths) {
 /**
  * Hitung kalkulasi gizi lengkap anak
  */
-export function calculateChildNutrition({ gender, ageMonths, weightKg, heightCm }) {
+export function calculateChildNutrition({
+  childName = 'Fauzan Al Khawarizmi',
+  gender = 'boy',
+  ageMonths,
+  weightKg,
+  heightCm,
+}) {
   const age = parseFloat(ageMonths);
   const weight = parseFloat(weightKg);
   const height = parseFloat(heightCm);
@@ -102,8 +110,6 @@ export function calculateChildNutrition({ gender, ageMonths, weightKg, heightCm 
   const heightInMeters = height / 100;
   const bmi = weight / (heightInMeters * heightInMeters);
 
-  // Perkiraan BB ideal berdasarkan tinggi badan (Kemenkes: BB ideal = 0.9 * (TB - 100) atau tabel WHO)
-  // Untuk balita, rasio berat ideal berdasar median tinggi
   const idealWeight = parseFloat((bbMedian * (height / tbMedian)).toFixed(1));
   const idealHeight = parseFloat(tbMedian.toFixed(1));
 
@@ -119,12 +125,22 @@ export function calculateChildNutrition({ gender, ageMonths, weightKg, heightCm 
 
   // Kategori TB/U (Stunting)
   let heightStatus = { text: 'Tinggi Badan Normal', level: 'normal', color: '#10B981', desc: 'Panjang/tinggi badan anak optimal sesuai usianya.' };
+  let stuntingRiskText = 'Risiko stunting rendah';
+  let subtextLine1 = 'hasil skinning menunjukan Kondisi';
+  let subtextLine2 = 'Pertumbuhan dalam batas normal';
+
   if (zHeightForAge < -3) {
     heightStatus = { text: 'Sangat Pendek (Severely Stunted)', level: 'danger', color: '#EF4444', desc: 'Anak mengalami stunting berat. Butuh stimulasi dan terapi gizi oleh dokter anak.' };
+    stuntingRiskText = 'Resiko stunting tinggi';
+    subtextLine2 = 'Perlu penanganan medis dan intervensi gizi';
   } else if (zHeightForAge < -2) {
     heightStatus = { text: 'Pendek (Stunted)', level: 'warning', color: '#F59E0B', desc: 'Terindikasi stunting. Optimalkan 1000 HPK dengan konsumsi protein hewani setiap makan.' };
+    stuntingRiskText = 'Resiko stunting sedang';
+    subtextLine2 = 'Perlu stimulasi gizi & pemantauan rutin';
   } else if (zHeightForAge > 3) {
     heightStatus = { text: 'Tinggi', level: 'normal', color: '#3B82F6', desc: 'Pertumbuhan tinggi badan berada di atas rata-rata usianya.' };
+    stuntingRiskText = 'Risiko stunting rendah';
+    subtextLine2 = 'Pertumbuhan dalam batas normal';
   }
 
   // Kategori Gizi BB/TB (Wasting)
@@ -138,7 +154,7 @@ export function calculateChildNutrition({ gender, ageMonths, weightKg, heightCm 
     wastingStatus = { text: 'Gizi Lebih / Obesitas', level: 'warning', color: '#8B5CF6', desc: 'Kelebihan berat badan, atur porsi makan dan minimalkan gula buatan.' };
   }
 
-  // Kebutuhan Kalori & Protein Harian (Kemenkes AKG)
+  // Kebutuhan Kalori & Protein Harian
   let dailyCalories = 1000;
   let dailyProtein = 20;
   let waterMl = 1100;
@@ -161,22 +177,8 @@ export function calculateChildNutrition({ gender, ageMonths, weightKg, heightCm 
     waterMl = 1800;
   }
 
-  // Rekomendasi menu spesifik
-  let specificAdvice = [];
-  if (heightStatus.level === 'warning' || heightStatus.level === 'danger') {
-    specificAdvice.push('Prioritaskan Protein Hewani: Berikan minimal 1 butir telur, ikan kembung/lele, atau hati ayam setiap hari untuk merangsang hormon pertumbuhan.');
-    specificAdvice.push('Cukupi Kalsium & Seng (Zinc): Berikan susu pertumbuhan, tempe/tahu, dan sayur hijau untuk pemadatan tulang.');
-  }
-  if (weightStatus.level === 'warning' || weightStatus.level === 'danger') {
-    specificAdvice.push('Tingkatkan Kerapatan Energi: Tambahkan lemak sehat seperti santan murni, mentega, atau minyak kelapa sawit ke dalam lauk anak.');
-    specificAdvice.push('Jadwal Makan Teratur: Berikan 3x makan utama bergizi dan 2x selingan sehat padat kalori (seperti pisang, puding alpukat, keju).');
-  }
-  if (specificAdvice.length === 0) {
-    specificAdvice.push('Pertahankan Pola "Isi Piringku": 1/3 makanan pokok, 1/3 sayuran, 1/6 lauk pauk protein hewani, dan 1/6 buah segar.');
-    specificAdvice.push('Pantau Tumbuh Kembang: Timbang berat dan ukur tinggi badan setiap bulan di Posyandu terdekat.');
-  }
-
   return {
+    childName: childName || 'Fauzan Al Khawarizmi',
     gender,
     ageMonths: age,
     weightKg: weight,
@@ -189,25 +191,64 @@ export function calculateChildNutrition({ gender, ageMonths, weightKg, heightCm 
     weightStatus,
     heightStatus,
     wastingStatus,
+    stuntingRiskText,
+    subtextLine1,
+    subtextLine2,
     dailyCalories,
     dailyProtein,
     waterMl,
-    specificAdvice,
     timestamp: new Date().toISOString(),
   };
 }
 
 // LocalStorage helpers untuk Riwayat Monitoring
-const STORAGE_KEY = 'nutrikids_growth_records_v1';
+const STORAGE_KEY = 'nutrikids_growth_records_v2';
+
+// Data bawaan sesuai contoh di mockup Gambar 3
+export const DEFAULT_MONITORING_RECORDS = [
+  {
+    id: 'mock-1',
+    childName: 'Fauzan Al Khawarizmi',
+    dateLabel: '11/12/25',
+    ageMonths: 74,
+    heightCm: 123,
+    weightKg: 34,
+    statusText: 'Resiko stunting sedang',
+    statusLevel: 'warning',
+  },
+  {
+    id: 'mock-2',
+    childName: 'Fauzan Al Khawarizmi',
+    dateLabel: '11/01/26',
+    ageMonths: 75,
+    heightCm: 125,
+    weightKg: 40,
+    statusText: 'Resiko stunting rendah',
+    statusLevel: 'normal',
+  },
+];
 
 export function getSavedGrowthRecords() {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    if (!data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_MONITORING_RECORDS));
+      return DEFAULT_MONITORING_RECORDS;
+    }
+    const parsed = JSON.parse(data);
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_MONITORING_RECORDS;
   } catch (e) {
     console.error('Gagal mengambil data monitoring:', e);
-    return [];
+    return DEFAULT_MONITORING_RECORDS;
   }
+}
+
+// Format tanggal DD/MM/YY (contoh: 11/09/26)
+function formatShortDate(date = new Date()) {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = String(date.getFullYear()).slice(-2);
+  return `${day}/${month}/${year}`;
 }
 
 export function saveGrowthRecord(record) {
@@ -215,14 +256,16 @@ export function saveGrowthRecord(record) {
     const current = getSavedGrowthRecords();
     const newRecord = {
       id: Date.now().toString(),
-      ...record,
-      dateLabel: new Date().toLocaleDateString('id-ID', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-      }),
+      childName: record.childName || 'Fauzan Al Khawarizmi',
+      dateLabel: formatShortDate(),
+      ageMonths: record.ageMonths,
+      heightCm: record.heightCm,
+      weightKg: record.weightKg,
+      statusText: record.stuntingRiskText || 'Resiko stunting rendah',
+      statusLevel: record.heightStatus?.level || 'normal',
+      timestamp: new Date().toISOString(),
     };
-    const updated = [newRecord, ...current];
+    const updated = [...current, newRecord];
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
     return updated;
   } catch (e) {

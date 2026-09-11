@@ -6,7 +6,7 @@ import DonationModal from './components/DonationModal';
 import NutritionCalculator from './components/NutritionCalculator';
 import FoodRecommendations from './components/FoodRecommendations';
 import GrowthMonitoring from './components/GrowthMonitoring';
-import heroKid from './assets/hero-kid.png';
+import hero2Img from './assets/hero2.png';
 import './App.css';
 
 function App() {
@@ -154,29 +154,14 @@ function App() {
                   </div>
                 </div>
 
-                {/* Right Hero Image (Figma Image 1) */}
+                {/* Right Hero Image (Hero2 Image) */}
                 <div className="hero-visual-col">
                   <div className="hero-image-card">
-                    {/* Decorative Sun & Leaf elements */}
-                    <span className="deco-sun" aria-hidden="true">☀️</span>
-                    <span className="deco-leaf deco-leaf-1" aria-hidden="true">🍃</span>
-                    <span className="deco-leaf deco-leaf-2" aria-hidden="true">🌿</span>
-
                     <img
-                      src={heroKid}
-                      alt="Anak Sehat Makan Sayur dan Makanan Bergizi"
+                      src={hero2Img}
+                      alt="Anak Sehat Masa Depan Kuat - Nutrikids"
                       className="hero-main-img"
                     />
-
-                    {/* Floating Badge Bubble (Figma Image 1) */}
-                    <div className="floating-badge-bubble">
-                      <span className="bubble-heart">💛</span>
-                      <div className="bubble-text">
-                        <strong>Anak Sehat</strong>
-                        <span>Masa Depan</span>
-                        <span>Kuat ✨</span>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -294,7 +279,7 @@ function App() {
                   className="footer-btn-link"
                   onClick={() => handleTabChange('cek-gizi')}
                 >
-                  Cek Gizi
+                  Cek gizi
                 </button>
               </li>
               <li>
@@ -303,7 +288,7 @@ function App() {
                   className="footer-btn-link"
                   onClick={() => handleTabChange('rekomendasi')}
                 >
-                  Rekomendasi Makanan
+                  Rekomendasi makanan
                 </button>
               </li>
               <li>
@@ -319,18 +304,9 @@ function App() {
                 <button
                   type="button"
                   className="footer-btn-link"
-                  onClick={() => handleTabChange('monitoring')}
-                >
-                  Monitoring
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  className="footer-btn-link"
                   onClick={() => setDonationModalOpen(true)}
                 >
-                  Donasi Makanan
+                  Donasi
                 </button>
               </li>
             </ul>
@@ -342,19 +318,19 @@ function App() {
             <ul className="footer-contact-list">
               <li>
                 <span className="contact-icon">📍</span>
-                <span>Jakarta, Indonesia</span>
+                <span>Jl. in aja dulu</span>
               </li>
               <li>
                 <span className="contact-icon">📞</span>
-                <span>+62 812-3456-7890</span>
+                <span>0811 - 2345 - 6789</span>
               </li>
               <li>
                 <span className="contact-icon">💬</span>
-                <span>WhatsApp: 0812-3456-7890</span>
+                <span>+62 811 -2345 - 6789</span>
               </li>
               <li>
                 <span className="contact-icon">📸</span>
-                <span>Instagram: @nutrikids.id</span>
+                <span>@Nutrikids</span>
               </li>
             </ul>
           </div>

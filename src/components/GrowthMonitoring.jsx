@@ -4,172 +4,107 @@ import './GrowthMonitoring.css';
 
 export default function GrowthMonitoring({ onNavigateCalculator }) {
   const [records, setRecords] = useState(() => getSavedGrowthRecords());
+  const [openMenuId, setOpenMenuId] = useState(null);
 
   const handleDelete = (id) => {
-    if (window.confirm('Hapus catatan pemeriksaan ini?')) {
+    if (window.confirm('Hapus data catatan pemeriksaan ini?')) {
       const updated = deleteGrowthRecord(id);
       setRecords(updated);
+      setOpenMenuId(null);
     }
   };
 
-  const latestRecord = records.length > 0 ? records[0] : null;
+  const toggleMenu = (id) => {
+    setOpenMenuId(openMenuId === id ? null : id);
+  };
+
+  // Ambil nama anak dari catatan terbaru atau default sesuai mockup Gambar 3
+  const childName =
+    records.length > 0 && records[records.length - 1].childName
+      ? records[records.length - 1].childName
+      : 'Fauzan Al Khawarizmi';
 
   return (
-    <div className="growth-monitoring-page">
-      {/* Header */}
-      <div className="monitoring-header">
-        <div className="monitoring-container">
-          <span className="monitoring-tag">Buku KIA Digital</span>
-          <h1 className="monitoring-title">Monitoring Tumbuh Kembang Anak</h1>
-          <p className="monitoring-subtitle">
-            Catat dan pantau grafik kenaikan berat badan serta tinggi badan anak secara berkala untuk deteksi dini dan pencegahan malnutrisi kronis.
-          </p>
+    <div className="nutrikids-monitoring-page">
+      <div className="monitoring-content-wrapper">
+        {/* Header Bar: Accent Bar + Judul di kiri, Tombol Kembali (olive) di kanan */}
+        <div className="monitoring-section-header">
+          <div className="header-left-title">
+            <div className="accent-bar-green"></div>
+            <h1 className="section-title-text">Monitoring</h1>
+          </div>
           <button
             type="button"
-            className="btn btn-lime-figma btn-add-measurement"
+            className="btn-monitoring-back"
             onClick={onNavigateCalculator}
           >
-            ➕ Input Pengukuran Baru <span>&rarr;</span>
+            Kembali
           </button>
         </div>
-      </div>
 
-      <div className="monitoring-container">
-        {/* Metric Summary Cards */}
-        {latestRecord && (
-          <div className="monitoring-summary-grid">
-            <div className="summary-card">
-              <span className="sum-icon">⚖️</span>
-              <div className="sum-details">
-                <span className="sum-label">Berat Badan Terakhir</span>
-                <strong className="sum-val">{latestRecord.weightKg} kg</strong>
-                <span className="sum-sub">Target: {latestRecord.idealWeight} kg</span>
-              </div>
-            </div>
-
-            <div className="summary-card">
-              <span className="sum-icon">📏</span>
-              <div className="sum-details">
-                <span className="sum-label">Tinggi Badan Terakhir</span>
-                <strong className="sum-val">{latestRecord.heightCm} cm</strong>
-                <span className="sum-sub">Target: {latestRecord.idealHeight} cm</span>
-              </div>
-            </div>
-
-            <div className="summary-card">
-              <span className="sum-icon">🩺</span>
-              <div className="sum-details">
-                <span className="sum-label">Status Deteksi Stunting</span>
-                <strong
-                  className="sum-val"
-                  style={{ color: latestRecord.heightStatus.color }}
-                >
-                  {latestRecord.heightStatus.text}
-                </strong>
-                <span className="sum-sub">{latestRecord.ageMonths} Bulan</span>
-              </div>
-            </div>
-
-            <div className="summary-card">
-              <span className="sum-icon">🥗</span>
-              <div className="sum-details">
-                <span className="sum-label">Target Kalori Harian</span>
-                <strong className="sum-val">{latestRecord.dailyCalories} kkal</strong>
-                <span className="sum-sub">Protein: {latestRecord.dailyProtein}g / hari</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* History Table */}
-        <div className="history-table-card">
-          <div className="history-header">
-            <h3>Riwayat Pengukuran Antropometri</h3>
-            <span className="record-count">Total: {records.length} Catatan</span>
+        {/* White Card Container (Sesuai Gambar 3 Mockup) */}
+        <div className="monitoring-white-card">
+          {/* Subheader: Nama Anak */}
+          <div className="child-name-header">
+            <span className="name-bold-label">Nama:</span>{' '}
+            <span className="name-regular-text">{childName}</span>
           </div>
 
-          {records.length > 0 ? (
-            <div className="table-responsive">
-              <table className="monitoring-table">
-                <thead>
-                  <tr>
-                    <th>Tanggal</th>
-                    <th>Anak</th>
-                    <th>Usia</th>
-                    <th>Berat (Kg)</th>
-                    <th>Tinggi (Cm)</th>
-                    <th>Status Gizi</th>
-                    <th>Indikator Stunting</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {records.map((rec) => (
-                    <tr key={rec.id}>
-                      <td className="date-cell">{rec.dateLabel}</td>
-                      <td>
-                        <span className="gender-pill">
-                          {rec.gender === 'girl' ? '👧 Perempuan' : '👦 Laki-Laki'}
-                        </span>
-                      </td>
-                      <td><strong>{rec.ageMonths}</strong> Bulan</td>
-                      <td><strong>{rec.weightKg}</strong> kg</td>
-                      <td><strong>{rec.heightCm}</strong> cm</td>
-                      <td>
-                        <span
-                          className="table-status-badge"
-                          style={{
-                            backgroundColor: rec.weightStatus.color + '20',
-                            color: rec.weightStatus.color,
-                          }}
-                        >
-                          {rec.weightStatus.text}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          className="table-status-badge"
-                          style={{
-                            backgroundColor: rec.heightStatus.color + '20',
-                            color: rec.heightStatus.color,
-                          }}
-                        >
-                          {rec.heightStatus.text}
-                        </span>
-                      </td>
-                      <td>
+          {/* Garis Pembatas Horizontal Halus */}
+          <div className="monitoring-divider-line"></div>
+
+          {/* Tabel Riwayat */}
+          <div className="monitoring-table-container">
+            <table className="monitoring-records-table">
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Usia (bulan)</th>
+                  <th>Tinggi badan (cm)</th>
+                  <th>Berat badan (kg)</th>
+                  <th>Status</th>
+                  <th className="th-action"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {records.map((rec) => (
+                  <tr key={rec.id} className="table-data-row">
+                    <td>{rec.dateLabel}</td>
+                    <td>{rec.ageMonths}</td>
+                    <td>{rec.heightCm}</td>
+                    <td>{rec.weightKg}</td>
+                    <td className="status-cell">{rec.statusText}</td>
+                    <td className="action-cell">
+                      <div className="action-menu-wrapper">
                         <button
                           type="button"
-                          className="btn-del-record"
-                          onClick={() => handleDelete(rec.id)}
-                          title="Hapus data"
+                          className="btn-dots-action"
+                          onClick={() => toggleMenu(rec.id)}
+                          aria-label="Menu Aksi"
                         >
-                          🗑️
+                          •••
                         </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="empty-monitoring-box">
-              <span className="empty-icon">📊</span>
-              <h4>Belum Ada Catatan Monitoring</h4>
-              <p>
-                Gunakan Kalkulator Gizi untuk memeriksa status antropometri anak dan simpan datanya ke riwayat monitoring ini.
-              </p>
-              <button
-                type="button"
-                className="btn btn-lime-figma"
-                onClick={onNavigateCalculator}
-              >
-                Cek Gizi Sekarang <span>&rarr;</span>
-              </button>
-            </div>
-          )}
+                        {openMenuId === rec.id && (
+                          <div className="action-popover-menu">
+                            <button
+                              type="button"
+                              className="popover-item danger"
+                              onClick={() => handleDelete(rec.id)}
+                            >
+                              Hapus Data
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+

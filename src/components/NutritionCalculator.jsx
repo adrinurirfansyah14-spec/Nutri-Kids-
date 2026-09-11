@@ -1,349 +1,290 @@
 import React, { useState } from 'react';
-import foodBanner from '../assets/food-banner.jpg';
-import girlImg from '../assets/girl-reading.jpg';
-import boyImg from '../assets/boy-reading.jpg';
 import { calculateChildNutrition, saveGrowthRecord } from '../services/nutritionCalculator';
 import './NutritionCalculator.css';
 
 export default function NutritionCalculator({ onNavigateTab }) {
-  const [gender, setGender] = useState('girl'); // 'girl' or 'boy'
-  const [ageMonths, setAgeMonths] = useState('24');
-  const [weightKg, setWeightKg] = useState('11.5');
-  const [heightCm, setHeightCm] = useState('86');
+  // Mode tampilan: 'form' (Gambar 1) atau 'result' (Gambar 2)
+  const [viewMode, setViewMode] = useState('form');
+
+  // Input states
+  const [childName, setChildName] = useState('');
+  const [ageValue, setAgeValue] = useState('');
+  const [ageUnit, setAgeUnit] = useState('bulan'); // 'bulan' atau 'tahun'
+  const [gender, setGender] = useState('boy'); // 'boy' (Laki Laki) atau 'girl' (Perempuan)
+  const [weightKg, setWeightKg] = useState('');
+  const [heightCm, setHeightCm] = useState('');
 
   // Hasil Perhitungan
   const [result, setResult] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const handleCalculate = (e) => {
     if (e) e.preventDefault();
     setErrorMessage('');
-    setSaveSuccess(false);
+
+    // Konversi usia ke bulan jika unit yang dipilih adalah tahun
+    let calculatedAgeMonths = parseFloat(ageValue);
+    if (isNaN(calculatedAgeMonths) || calculatedAgeMonths <= 0) {
+      setErrorMessage('Silakan masukkan usia anak yang valid.');
+      return;
+    }
+    if (ageUnit === 'tahun') {
+      calculatedAgeMonths = calculatedAgeMonths * 12;
+    }
+
+    const parsedWeight = parseFloat(weightKg);
+    const parsedHeight = parseFloat(heightCm);
+
+    if (isNaN(parsedWeight) || parsedWeight <= 0) {
+      setErrorMessage('Silakan masukkan berat badan yang valid.');
+      return;
+    }
+    if (isNaN(parsedHeight) || parsedHeight <= 0) {
+      setErrorMessage('Silakan masukkan tinggi badan yang valid.');
+      return;
+    }
 
     try {
       const calcResult = calculateChildNutrition({
+        childName: childName.trim() || 'Fauzan Al Khawarizmi',
         gender,
-        ageMonths,
-        weightKg,
-        heightCm,
+        ageMonths: calculatedAgeMonths,
+        weightKg: parsedWeight,
+        heightCm: parsedHeight,
       });
-      setResult(calcResult);
 
-      // Smooth scroll to results
-      setTimeout(() => {
-        const resEl = document.getElementById('calculator-result-section');
-        if (resEl) {
-          resEl.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
+      setResult(calcResult);
+      setIsSaved(false);
+      setViewMode('result');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       setErrorMessage(err.message || 'Terjadi kesalahan saat menghitung.');
-      setResult(null);
     }
   };
 
-  const handleSaveToMonitoring = () => {
+  const handleSaveData = () => {
     if (!result) return;
     saveGrowthRecord(result);
-    setSaveSuccess(true);
-    setTimeout(() => setSaveSuccess(false), 3500);
+    setIsSaved(true);
+
+    // Langsung navigasi ke halaman Monitoring (Gambar 3)
+    if (onNavigateTab) {
+      onNavigateTab('monitoring');
+    }
   };
 
-  const handlePrint = () => {
-    window.print();
+  const handleBackToForm = () => {
+    setViewMode('form');
+    setErrorMessage('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="nutrition-calc-page">
-      {/* 1. HERO FOOD BANNER (Figma Image 5) */}
-      <div className="calc-header-banner">
-        <img
-          src={foodBanner}
-          alt="Aneka Makanan Bergizi Seimbang Nutrikids"
-          className="calc-banner-image"
-        />
-        <div className="calc-banner-overlay">
-          {/* Frosted Glass Badge Pill (Figma Image 5) */}
-          <div className="frosted-calc-pill">
-            <span className="pill-accent-line"></span>
-            <span className="pill-leaf-icon">🍃</span>
-            <span className="pill-text">Kalkulator Gizi</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. CALCULATOR FORM CARD (Figma Image 4) */}
-      <div className="calc-content-container">
-        <div className="calc-main-card">
-          {/* Title and Subtitle */}
-          <div className="calc-card-header">
-            <h2 className="calc-top-tag">Kalkulator Perhitungan</h2>
-            <h1 className="calc-main-title">Status Perkembangan Gizi Anak</h1>
-            <p className="calc-child-prompt">Anak anda :</p>
-          </div>
-
-          {/* Gender Selector with Chibi Avatars (Figma Image 4) */}
-          <div className="gender-selector-grid">
-            {/* Perempuan */}
-            <div
-              className={`gender-option-card ${gender === 'girl' ? 'active' : ''}`}
-              onClick={() => setGender('girl')}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && setGender('girl')}
-            >
-              <div className="avatar-img-wrapper">
-                <img src={girlImg} alt="Anak Perempuan" className="chibi-avatar" />
-              </div>
-              <span className="gender-label">Perempuan</span>
-              {gender === 'girl' && <span className="active-check">✓</span>}
-            </div>
-
-            {/* Laki - Laki */}
-            <div
-              className={`gender-option-card ${gender === 'boy' ? 'active' : ''}`}
-              onClick={() => setGender('boy')}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && setGender('boy')}
-            >
-              <div className="avatar-img-wrapper">
-                <img src={boyImg} alt="Anak Laki - Laki" className="chibi-avatar" />
-              </div>
-              <span className="gender-label">Laki - Laki</span>
-              {gender === 'boy' && <span className="active-check">✓</span>}
-            </div>
-          </div>
-
-          {/* Input Form Fields */}
-          <form className="calc-input-form" onSubmit={handleCalculate}>
-            {/* Usia Anak (Bulan) */}
-            <div className="calc-input-row">
-              <label htmlFor="ageMonths" className="calc-input-label">
-                Usia Anak (Bulan) :
-              </label>
-              <div className="calc-input-composite">
-                <input
-                  id="ageMonths"
-                  type="number"
-                  step="1"
-                  min="0"
-                  max="120"
-                  value={ageMonths}
-                  onChange={(e) => setAgeMonths(e.target.value)}
-                  placeholder="24"
-                  className="calc-inner-input"
-                  required
-                />
-                <span className="calc-unit-badge">Bulan</span>
-              </div>
-            </div>
-
-            {/* Berat Badan Anak (Kg) */}
-            <div className="calc-input-row">
-              <label htmlFor="weightKg" className="calc-input-label">
-                Berat Badan Anak :
-              </label>
-              <div className="calc-input-composite">
-                <input
-                  id="weightKg"
-                  type="number"
-                  step="0.1"
-                  min="1"
-                  max="80"
-                  value={weightKg}
-                  onChange={(e) => setWeightKg(e.target.value)}
-                  placeholder="11.5"
-                  className="calc-inner-input"
-                  required
-                />
-                <span className="calc-unit-badge">Kg</span>
-              </div>
-            </div>
-
-            {/* Tinggi Badan Anak (Cm) */}
-            <div className="calc-input-row">
-              <label htmlFor="heightCm" className="calc-input-label">
-                Tinggi Badan Anak :
-              </label>
-              <div className="calc-input-composite">
-                <input
-                  id="heightCm"
-                  type="number"
-                  step="0.1"
-                  min="30"
-                  max="180"
-                  value={heightCm}
-                  onChange={(e) => setHeightCm(e.target.value)}
-                  placeholder="86"
-                  className="calc-inner-input"
-                  required
-                />
-                <span className="calc-unit-badge">Cm</span>
-              </div>
-            </div>
-
-            {/* Note instruction */}
-            <p className="calc-instruction-note">
-              Note : Masukkan dalam bentuk angka satuan
-            </p>
-
-            {/* Error Message */}
-            {errorMessage && (
-              <div className="calc-error-banner">
-                <span>⚠️</span> {errorMessage}
-              </div>
-            )}
-
-            {/* Hitung Button (Figma Image 4: Soft Blue Pill Button) */}
-            <div className="calc-submit-container">
-              <button type="submit" className="btn-calc-submit">
-                Hitung <span>&rarr;</span>
-              </button>
-            </div>
-          </form>
+    <div className="nutrikids-calc-page">
+      {/* Container utama */}
+      <div className="calc-content-wrapper">
+        {/* Header dengan Aksen Garis Hijau Vertikal */}
+        <div className="calc-section-header">
+          <div className="accent-bar-green"></div>
+          <h1 className="section-title-text">Cek kondisi gizi anak</h1>
         </div>
 
-        {/* 3. FUNCTIONAL DIAGNOSIS RESULTS (Appears after calculation) */}
-        {result && (
-          <div id="calculator-result-section" className="calc-results-wrapper">
-            <div className="results-header-box">
-              <div className="results-title-group">
-                <span className="results-pill-badge">Hasil Evaluasi Medis Gizi</span>
-                <h3 className="results-main-title">
-                  Laporan Deteksi Gizi Anak ({result.gender === 'girl' ? 'Perempuan' : 'Laki-Laki'}, {result.ageMonths} Bulan)
-                </h3>
-              </div>
-              <div className="results-actions-top">
-                <button
-                  type="button"
-                  className="btn-result-action btn-save-monitoring"
-                  onClick={handleSaveToMonitoring}
-                >
-                  {saveSuccess ? '✓ Tersimpan di Monitoring!' : '💾 Simpan ke Monitoring'}
-                </button>
-                <button
-                  type="button"
-                  className="btn-result-action btn-print-report"
-                  onClick={handlePrint}
-                >
-                  🖨️ Cetak Laporan
-                </button>
-              </div>
+        {/* ========================================================================= */}
+        {/* TAMPILAN 1: FORM INPUT KALKULATOR (Sesuai Gambar 1 Mockup)               */}
+        {/* ========================================================================= */}
+        {viewMode === 'form' && (
+          <div className="calc-white-card">
+            {/* Judul & Subjudul dalam Kartu */}
+            <div className="card-heading-group">
+              <span className="card-sub-green">Kalkulator Perhitungan</span>
+              <h2 className="card-main-title">Status Perkembangan Gizi Anak</h2>
             </div>
 
-            {/* Status 3 Dimensi WHO Grid */}
-            <div className="status-cards-grid">
-              {/* BB / U */}
-              <div className="status-diag-card" style={{ borderTopColor: result.weightStatus.color }}>
-                <div className="diag-card-head">
-                  <span className="diag-code">BB / U (Berat menurut Usia)</span>
-                  <span
-                    className="diag-badge"
-                    style={{ backgroundColor: result.weightStatus.color + '22', color: result.weightStatus.color }}
-                  >
-                    {result.weightStatus.text}
-                  </span>
-                </div>
-                <p className="diag-desc">{result.weightStatus.desc}</p>
-                <div className="diag-metric-row">
-                  <span>Berat saat ini: <strong>{result.weightKg} kg</strong></span>
-                  <span>Target Ideal: <strong>{result.idealWeight} kg</strong></span>
-                </div>
+            <form onSubmit={handleCalculate} className="calc-modern-form">
+              {/* Field 1: Nama Anak */}
+              <div className="form-group-full">
+                <label className="form-field-label">Nama anak anda:</label>
+                <input
+                  type="text"
+                  className="pill-input-field full-width"
+                  placeholder="Masukan nama anak anda"
+                  value={childName}
+                  onChange={(e) => setChildName(e.target.value)}
+                />
               </div>
 
-              {/* TB / U (Stunting Detection) */}
-              <div className="status-diag-card" style={{ borderTopColor: result.heightStatus.color }}>
-                <div className="diag-card-head">
-                  <span className="diag-code">TB / U (Indikator Stunting)</span>
-                  <span
-                    className="diag-badge"
-                    style={{ backgroundColor: result.heightStatus.color + '22', color: result.heightStatus.color }}
-                  >
-                    {result.heightStatus.text}
-                  </span>
-                </div>
-                <p className="diag-desc">{result.heightStatus.desc}</p>
-                <div className="diag-metric-row">
-                  <span>Tinggi saat ini: <strong>{result.heightCm} cm</strong></span>
-                  <span>Target Ideal: <strong>{result.idealHeight} cm</strong></span>
-                </div>
-              </div>
-
-              {/* BB / TB (Wasting / Gizi Akut) */}
-              <div className="status-diag-card" style={{ borderTopColor: result.wastingStatus.color }}>
-                <div className="diag-card-head">
-                  <span className="diag-code">BB / TB (Indikator Wasting)</span>
-                  <span
-                    className="diag-badge"
-                    style={{ backgroundColor: result.wastingStatus.color + '22', color: result.wastingStatus.color }}
-                  >
-                    {result.wastingStatus.text}
-                  </span>
-                </div>
-                <p className="diag-desc">{result.wastingStatus.desc}</p>
-                <div className="diag-metric-row">
-                  <span>IMT Anak: <strong>{result.bmi} kg/m²</strong></span>
-                  <span>Kondisi Fisik: <strong>Proporsional</strong></span>
-                </div>
-              </div>
-            </div>
-
-            {/* Kebutuhan Nutrisi & Rekomendasi Ahli */}
-            <div className="nutrition-target-panel">
-              <div className="target-col-metrics">
-                <h4 className="target-subheading">Kebutuhan Harian Anak (Kemenkes RI):</h4>
-                <div className="metric-pill-list">
-                  <div className="target-metric-box">
-                    <span className="metric-icon">⚡</span>
-                    <div className="metric-details">
-                      <span className="metric-val">{result.dailyCalories} kkal</span>
-                      <span className="metric-label">Energi Harian</span>
-                    </div>
-                  </div>
-
-                  <div className="target-metric-box">
-                    <span className="metric-icon">🥩</span>
-                    <div className="metric-details">
-                      <span className="metric-val">{result.dailyProtein} gram</span>
-                      <span className="metric-label">Protein Hewani & Nabati</span>
-                    </div>
-                  </div>
-
-                  <div className="target-metric-box">
-                    <span className="metric-icon">💧</span>
-                    <div className="metric-details">
-                      <span className="metric-val">{result.waterMl} ml</span>
-                      <span className="metric-label">Cairan / Air Putih</span>
+              {/* Baris 2: Usia (dengan toggle Bulan/Tahun) & Jenis Kelamin */}
+              <div className="form-two-col-row">
+                {/* Kolom Kiri: Usia */}
+                <div className="form-col-group">
+                  <label className="form-field-label">Usia:</label>
+                  <div className="age-input-composite">
+                    <input
+                      type="number"
+                      step="any"
+                      min="0"
+                      className="pill-input-field age-number-input"
+                      placeholder="Contoh: 3"
+                      value={ageValue}
+                      onChange={(e) => setAgeValue(e.target.value)}
+                      required
+                    />
+                    <div className="unit-toggle-pill">
+                      <button
+                        type="button"
+                        className={`unit-toggle-btn ${ageUnit === 'bulan' ? 'active' : ''}`}
+                        onClick={() => setAgeUnit('bulan')}
+                      >
+                        Bulan
+                      </button>
+                      <button
+                        type="button"
+                        className={`unit-toggle-btn ${ageUnit === 'tahun' ? 'active' : ''}`}
+                        onClick={() => setAgeUnit('tahun')}
+                      >
+                        Tahun
+                      </button>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="target-col-advice">
-                <h4 className="target-subheading">Rekomendasi Tindakan Ahli Gizi:</h4>
-                <ul className="expert-advice-list">
-                  {result.specificAdvice.map((adv, idx) => (
-                    <li key={idx}>
-                      <span className="adv-bullet">🥑</span>
-                      <span>{adv}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {onNavigateTab && (
-                  <div className="advice-cta-bar">
-                    <button
-                      type="button"
-                      className="btn btn-lime-figma btn-goto-food"
-                      onClick={() => onNavigateTab('rekomendasi')}
+                {/* Kolom Kanan: Jenis Kelamin */}
+                <div className="form-col-group">
+                  <label className="form-field-label">Jenis kelamin:</label>
+                  <div className="gender-radio-container">
+                    {/* Laki Laki */}
+                    <div
+                      className={`gender-radio-item ${gender === 'boy' ? 'selected' : ''}`}
+                      onClick={() => setGender('boy')}
                     >
-                      Lihat Rekomendasi Menu Bergizi Sesuai Usia <span>&rarr;</span>
-                    </button>
+                      <span className="gender-name-label">Laki Laki</span>
+                      <div className="radio-circle-indicator cyan-circle">
+                        {gender === 'boy' && <div className="circle-inner-active"></div>}
+                      </div>
+                    </div>
+
+                    {/* Perempuan */}
+                    <div
+                      className={`gender-radio-item ${gender === 'girl' ? 'selected' : ''}`}
+                      onClick={() => setGender('girl')}
+                    >
+                      <span className="gender-name-label">Perempuan</span>
+                      <div className="radio-circle-indicator gray-circle">
+                        {gender === 'girl' && <div className="circle-inner-active"></div>}
+                      </div>
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
+
+              {/* Baris 3: Berat Badan & Tinggi Badan */}
+              <div className="form-two-col-row">
+                {/* Kolom Kiri: Berat Badan */}
+                <div className="form-col-group">
+                  <label className="form-field-label">Berat Badan(Kg)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    className="pill-input-field"
+                    placeholder="Contoh: 12"
+                    value={weightKg}
+                    onChange={(e) => setWeightKg(e.target.value)}
+                    required
+                  />
+                </div>
+
+                {/* Kolom Kanan: Tinggi Badan */}
+                <div className="form-col-group">
+                  <label className="form-field-label">Tinggi Badan(cm)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    className="pill-input-field"
+                    placeholder="Contoh: 185"
+                    value={heightCm}
+                    onChange={(e) => setHeightCm(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Banner Pesan Error jika input tidak valid */}
+              {errorMessage && (
+                <div className="calc-validation-alert">
+                  <span className="alert-icon">⚠️</span> {errorMessage}
+                </div>
+              )}
+
+              {/* Tombol Submit Analisis */}
+              <div className="form-submit-row">
+                <button type="submit" className="btn-analisis-pill">
+                  Analisis kondisi gizi
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAMPILAN 2: HASIL SKRINING & DETEKSI GIZI (Sesuai Gambar 2 Mockup)       */}
+        {/* ========================================================================= */}
+        {viewMode === 'result' && result && (
+          <div className="calc-white-card result-card-mode">
+            {/* 4 Kotak Ringkasan Abu-abu Bersebelahan */}
+            <div className="result-metric-grid">
+              {/* Box 1: Nama */}
+              <div className="metric-box-item">
+                <span className="metric-box-title">Nama</span>
+                <span className="metric-box-value">{result.childName}</span>
+              </div>
+
+              {/* Box 2: Usia */}
+              <div className="metric-box-item">
+                <span className="metric-box-title">Usia</span>
+                <span className="metric-box-value">{result.ageMonths} bulan</span>
+              </div>
+
+              {/* Box 3: Tinggi Badan */}
+              <div className="metric-box-item">
+                <span className="metric-box-title">Tinggi badan</span>
+                <span className="metric-box-value">{result.heightCm}</span>
+              </div>
+
+              {/* Box 4: Berat Badan */}
+              <div className="metric-box-item">
+                <span className="metric-box-title">Berat badan</span>
+                <span className="metric-box-value">{result.weightKg}</span>
+              </div>
+            </div>
+
+            {/* Bagian Tengah: Teks Evaluasi Risiko Stunting */}
+            <div className="result-evaluation-center">
+              <h2 className="stunting-headline-title">{result.stuntingRiskText}</h2>
+              <div className="stunting-subtext-group">
+                <p className="subtext-line-1">{result.subtextLine1}</p>
+                <p className="subtext-line-2">{result.subtextLine2}</p>
+              </div>
+            </div>
+
+            {/* Dua Tombol Aksi di Bawah: Simpan Data & Kembali */}
+            <div className="result-actions-row">
+              <button
+                type="button"
+                className="btn-result-action-pill"
+                onClick={handleSaveData}
+              >
+                {isSaved ? '✓ Data Tersimpan!' : 'Simpan data'}
+              </button>
+              <button
+                type="button"
+                className="btn-result-action-pill"
+                onClick={handleBackToForm}
+              >
+                Kembali
+              </button>
             </div>
           </div>
         )}
@@ -351,3 +292,4 @@ export default function NutritionCalculator({ onNavigateTab }) {
     </div>
   );
 }
+

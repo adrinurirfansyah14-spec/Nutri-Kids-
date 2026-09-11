@@ -32,7 +32,14 @@ export default function Navbar({
         <nav className={`navbar-nav ${mobileMenuOpen ? 'open' : ''}`}>
           <button
             type="button"
-            className={`nav-item ${activeTab === 'cek-gizi' ? 'active' : ''}`}
+            className={`nav-item ${activeTab === 'beranda' ? 'active' : ''}`}
+            onClick={() => handleNavClick('beranda')}
+          >
+            Beranda
+          </button>
+          <button
+            type="button"
+            className={`nav-item ${activeTab === 'cek-gizi' || activeTab === 'monitoring' ? 'active' : ''}`}
             onClick={() => handleNavClick('cek-gizi')}
           >
             Cek Gizi
@@ -50,13 +57,6 @@ export default function Navbar({
             onClick={() => handleNavClick('edukasi')}
           >
             Edukasi
-          </button>
-          <button
-            type="button"
-            className={`nav-item ${activeTab === 'monitoring' ? 'active' : ''}`}
-            onClick={() => handleNavClick('monitoring')}
-          >
-            Monitoring
           </button>
 
           {/* Mobile Actions */}

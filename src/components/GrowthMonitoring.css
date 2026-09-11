@@ -1,238 +1,219 @@
 /* ==========================================================================
-   GROWTH MONITORING STYLES
+   NUTRIKIDS - MONITORING TUMBUH KEMBANG (EXACT MATCH FIGMA / SCREENSHOT 3)
    Folder: src/components/GrowthMonitoring.css
    ========================================================================== */
 
-.growth-monitoring-page {
-  background-color: #f8fafc;
-  min-height: 100vh;
-  padding-bottom: 5rem;
-}
-
-.monitoring-header {
-  background: linear-gradient(135deg, #fdf6ec 0%, #edf7f2 100%);
-  padding: 4rem 1.5rem 3.5rem;
-  text-align: center;
-}
-
-.monitoring-container {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 0 1.25rem;
-}
-
-.monitoring-tag {
-  display: inline-block;
-  background-color: #e0f2fe;
-  color: #0369a1;
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 0.35rem 0.95rem;
-  border-radius: 9999px;
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.monitoring-title {
-  font-size: clamp(2rem, 3.5vw, 2.75rem);
-  font-weight: 800;
-  color: #0f172a;
-  letter-spacing: -0.02em;
-  margin-bottom: 1rem;
-}
-
-.monitoring-subtitle {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  color: #475569;
-  max-width: 720px;
-  margin: 0 auto 2rem;
-}
-
-.btn-add-measurement {
-  padding: 0.85rem 2rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  box-shadow: 0 8px 24px rgba(151, 196, 89, 0.35);
-}
-
-/* Summary Grid */
-.monitoring-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
-  margin-top: -30px;
-  margin-bottom: 2.5rem;
+.nutrikids-monitoring-page {
+  background: linear-gradient(180deg, #f2f9f5 0%, #e5f5eb 50%, #daf0e2 100%);
+  min-height: 85vh;
+  padding: 2.5rem 1rem 5rem;
   position: relative;
-  z-index: 5;
+  font-family: inherit;
 }
 
-.summary-card {
-  background-color: #ffffff;
-  border-radius: 20px;
-  padding: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
+.monitoring-content-wrapper {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-.sum-icon {
-  font-size: 2.25rem;
-}
-
-.sum-details {
-  display: flex;
-  flex-direction: column;
-}
-
-.sum-label {
-  font-size: 0.825rem;
-  font-weight: 600;
-  color: #64748b;
-  margin-bottom: 0.2rem;
-}
-
-.sum-val {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.sum-sub {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #94a3b8;
-}
-
-/* History Table Card */
-.history-table-card {
-  background-color: #ffffff;
-  border-radius: 24px;
-  padding: 2.25rem;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-  border: 1px solid #f1f5f9;
-}
-
-.history-header {
+/* ==========================================================================
+   SECTION HEADER (Accent Bar + Monitoring di kiri, Kembali di kanan)
+   ========================================================================== */
+.monitoring-section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 2.25rem;
 }
 
-.history-header h3 {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #0f172a;
+.header-left-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
-.record-count {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #64748b;
-  background-color: #f1f5f9;
-  padding: 0.35rem 0.85rem;
+.btn-monitoring-back {
+  background-color: #8db843;
+  color: #1a3311;
+  border: none;
   border-radius: 9999px;
+  padding: 0.6rem 2.2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(141, 184, 67, 0.3);
 }
 
-.table-responsive {
+.btn-monitoring-back:hover {
+  background-color: #7fa838;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(141, 184, 67, 0.4);
+}
+
+/* ==========================================================================
+   WHITE CARD & TABLE (Screenshot 3)
+   ========================================================================== */
+.monitoring-white-card {
+  background: #ffffff;
+  border-radius: 32px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05), 0 1px 4px rgba(0, 0, 0, 0.02);
+  padding: 3.5rem 4rem;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  animation: fadeInCard 0.4s ease-out;
+}
+
+.child-name-header {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.name-bold-label {
+  font-weight: 800;
+  color: #111827;
+}
+
+.name-regular-text {
+  font-weight: 500;
+  color: #1f2937;
+  margin-left: 4px;
+}
+
+.monitoring-divider-line {
+  width: 100%;
+  height: 1.5px;
+  background-color: #cbd5e1;
+  margin: 1.25rem 0 1.75rem;
+}
+
+/* Tabel */
+.monitoring-table-container {
+  width: 100%;
   overflow-x: auto;
 }
 
-.monitoring-table {
+.monitoring-records-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
 }
 
-.monitoring-table th {
-  background-color: #f8fafc;
-  color: #475569;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 1rem 1.25rem;
-  border-bottom: 2px solid #e2e8f0;
+.monitoring-records-table th {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1f2937;
+  padding: 0.85rem 1rem 1.25rem 0;
+  border-bottom: none;
 }
 
-.monitoring-table td {
-  padding: 1.1rem 1.25rem;
-  border-bottom: 1px solid #f1f5f9;
-  font-size: 0.925rem;
-  color: #334155;
+.monitoring-records-table td {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1f2937;
+  padding: 1.25rem 1rem 1.25rem 0;
   vertical-align: middle;
+  border-bottom: none;
 }
 
-.monitoring-table tr:hover td {
-  background-color: #f8fafc;
+.status-cell {
+  color: #1f2937;
+  font-weight: 500;
 }
 
-.date-cell {
-  font-weight: 600;
-  color: #0f172a;
-  white-space: nowrap;
+.th-action {
+  width: 50px;
+  text-align: right;
 }
 
-.gender-pill {
+.action-cell {
+  text-align: right;
+  position: relative;
+}
+
+.action-menu-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.btn-dots-action {
+  background: transparent;
+  border: none;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: 2px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-dots-action:hover {
+  background-color: #f3f4f6;
+  color: #000000;
+}
+
+.action-popover-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  padding: 6px;
+  z-index: 50;
+  min-width: 140px;
+  animation: fadeInMenu 0.15s ease-out;
+}
+
+@keyframes fadeInMenu {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.popover-item {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 0.6rem 0.85rem;
   font-size: 0.85rem;
   font-weight: 600;
-  background-color: #f1f5f9;
-  padding: 0.25rem 0.65rem;
-  border-radius: 6px;
-  white-space: nowrap;
-}
-
-.table-status-badge {
-  display: inline-block;
-  font-size: 0.825rem;
-  font-weight: 800;
-  padding: 0.35rem 0.75rem;
   border-radius: 8px;
-  white-space: nowrap;
-}
-
-.btn-del-record {
-  background: none;
-  border: none;
   cursor: pointer;
-  font-size: 1.1rem;
-  padding: 0.4rem;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
+  transition: background 0.15s;
 }
 
-.btn-del-record:hover {
-  background-color: #fee2e2;
+.popover-item.danger {
+  color: #ef4444;
 }
 
-/* Empty State */
-.empty-monitoring-box {
-  text-align: center;
-  padding: 4rem 1.5rem;
+.popover-item.danger:hover {
+  background-color: #fef2f2;
 }
 
-.empty-icon {
-  font-size: 3.5rem;
-  display: block;
-  margin-bottom: 1rem;
-}
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 768px) {
+  .monitoring-white-card {
+    padding: 2.25rem 1.5rem;
+    border-radius: 24px;
+  }
 
-.empty-monitoring-box h4 {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 0.5rem;
-}
-
-.empty-monitoring-box p {
-  color: #64748b;
-  max-width: 480px;
-  margin: 0 auto 1.5rem;
-  line-height: 1.6;
+  .monitoring-records-table th,
+  .monitoring-records-table td {
+    padding-right: 0.75rem;
+    font-size: 0.85rem;
+  }
 }
