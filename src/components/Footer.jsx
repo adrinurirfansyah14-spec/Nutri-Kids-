@@ -1,47 +1,94 @@
 import React from 'react';
 import './Footer.css';
 
-/**
- * Komponen Footer
- * Fungsi: Informasi penutup website, hak cipta, dan navigasi tambahan.
- */
-export default function Footer() {
-  const currentYear = new Date().getFullYear();
+export default function Footer({ onSelectTab }) {
+  const handleLink = (tabKey) => {
+    if (onSelectTab) {
+      onSelectTab(tabKey);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <footer className="footer-wrapper">
-      <div className="container footer-content">
-        <div className="footer-brand">
-          <div className="brand-logo">
-            <span className="brand-icon">💼</span>
-            <span className="brand-name">GetInvestor</span>
-          </div>
-          <p className="footer-bio">
-            Platform karya Kelompok 3 untuk menghubungkan ide bisnis inovatif dengan pemodal masa depan.
+    <footer className="footer-figma">
+      <div className="footer-container">
+        {/* Kolom 1: Tentang Kami */}
+        <div className="footer-col">
+          <h3 className="footer-col-title">Tentang kami</h3>
+          <p className="footer-text">
+            Kami membuat Nutrikids sebagai mendukung upaya promotif dan preventif dalam mencegah masalah
+            malnutrisi pada anak. Nutrikids membantu orang tua melakukan deteksi dini, memperoleh edukasi
+            dan rekomendasi gizi, serta memantau pertumbuhan anak.
           </p>
         </div>
 
-        <div className="footer-links-group">
-          <div className="links-column">
-            <h4>Navigasi</h4>
-            <a href="#home">Beranda</a>
-            <a href="#investors">Daftar Investor</a>
-            <a href="#stats">Statistik</a>
-          </div>
-          <div className="links-column">
-            <h4>Dukungan</h4>
-            <a href="#faq">Pusat Bantuan</a>
-            <a href="#privacy">Kebijakan Privasi</a>
-            <a href="#terms">Syarat & Ketentuan</a>
-          </div>
+        {/* Kolom 2: Tautan Cepat */}
+        <div className="footer-col">
+          <h3 className="footer-col-title">Tautan cepat</h3>
+          <ul className="footer-links-list">
+            <li>
+              <button
+                type="button"
+                className="footer-btn-link"
+                onClick={() => handleLink('cek-gizi')}
+              >
+                Cek gizi
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="footer-btn-link"
+                onClick={() => handleLink('rekomendasi')}
+              >
+                Rekomendasi makanan
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="footer-btn-link"
+                onClick={() => handleLink('edukasi')}
+              >
+                Edukasi
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="footer-btn-link"
+                onClick={() => handleLink('donasi')}
+              >
+                Donasi
+              </button>
+            </li>
+          </ul>
         </div>
-      </div>
 
-      <div className="footer-bottom">
-        <div className="container">
-          <p>© {currentYear} GetInvestor (Kelompok 3). All rights reserved.</p>
+        {/* Kolom 3: Kontak Kami */}
+        <div className="footer-col">
+          <h3 className="footer-col-title">Kontak kami</h3>
+          <ul className="footer-contact-list">
+            <li>
+              <span className="contact-icon">📍</span>
+              <span>Jl. in aja dulu</span>
+            </li>
+            <li>
+              <span className="contact-icon">📞</span>
+              <span>0811 - 2345 - 6789</span>
+            </li>
+            <li>
+              <span className="contact-icon">💬</span>
+              <span>+62 811 -2345 - 6789</span>
+            </li>
+            <li>
+              <span className="contact-icon">📸</span>
+              <span>@Nutrikids</span>
+            </li>
+          </ul>
         </div>
       </div>
     </footer>
   );
 }
+

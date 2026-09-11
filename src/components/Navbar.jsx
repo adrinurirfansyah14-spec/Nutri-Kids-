@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import nutriKidsLogo from '../assets/nutrikids-logo.png';
 import './Navbar.css';
 
 export default function Navbar({
@@ -15,17 +16,31 @@ export default function Navbar({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleDonationClick = () => {
+    setMobileMenuOpen(false);
+    if (onSelectTab) {
+      onSelectTab('donasi');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (onOpenDonation) {
+      onOpenDonation();
+    }
+  };
+
   return (
     <header className="navbar-header">
       <div className="navbar-container">
-        {/* Logo */}
+        {/* Exact Figma NutriKids Logo */}
         <button
           type="button"
           className="navbar-logo-btn"
           onClick={() => handleNavClick('beranda')}
+          aria-label="NutriKids Beranda"
         >
-          <span className="logo-icon">🥗</span>
-          <span className="logo-text">NutriKids</span>
+          <img
+            src={nutriKidsLogo}
+            alt="NutriKids Logo"
+            className="navbar-logo-img"
+          />
         </button>
 
         {/* Navigation Links */}
@@ -63,11 +78,8 @@ export default function Navbar({
           <div className="navbar-actions mobile-only">
             <button
               type="button"
-              className="btn btn-outline-figma"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenDonation();
-              }}
+              className={`btn btn-outline-figma ${activeTab === 'donasi' ? 'active-donasi' : ''}`}
+              onClick={handleDonationClick}
             >
               Donasi
             </button>
@@ -88,8 +100,8 @@ export default function Navbar({
         <div className="navbar-actions desktop-only">
           <button
             type="button"
-            className="btn btn-outline-figma"
-            onClick={onOpenDonation}
+            className={`btn btn-outline-figma ${activeTab === 'donasi' ? 'active-donasi' : ''}`}
+            onClick={handleDonationClick}
           >
             Donasi
           </button>

@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import AuthModal from './components/AuthModal';
 import DetailModal from './components/DetailModal';
-import DonationModal from './components/DonationModal';
+import DonationFlow from './components/DonationFlow';
 import NutritionCalculator from './components/NutritionCalculator';
 import FoodRecommendations from './components/FoodRecommendations';
 import GrowthMonitoring from './components/GrowthMonitoring';
-import hero2Img from './assets/hero2.png';
+import heroKid from './assets/hero2.png';
+import btnDonasiOrange from './assets/btn-donasi-orange.png';
+import greenWaveHills from './assets/green-wave-hills.png';
 import './App.css';
 
 function App() {
-  // Navigation active tab: 'beranda' | 'cek-gizi' | 'rekomendasi' | 'edukasi' | 'monitoring'
+  // Navigation active tab: 'beranda' | 'cek-gizi' | 'rekomendasi' | 'monitoring' | 'donasi'
   const [activeTab, setActiveTab] = useState('beranda');
 
   // Modal states
@@ -18,7 +21,6 @@ function App() {
   const [authInitialMode, setAuthInitialMode] = useState('login');
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [activeDetailData, setActiveDetailData] = useState(null);
-  const [donationModalOpen, setDonationModalOpen] = useState(false);
 
   // Nutrition Card Data (Figma Frame 17 & Image 2)
   const nutritionCards = [
@@ -87,6 +89,14 @@ function App() {
   };
 
   const handleTabChange = (tabKey) => {
+    if (tabKey === 'edukasi') {
+      setActiveTab('beranda');
+      setTimeout(() => {
+        const el = document.getElementById('edukasi');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+      return;
+    }
     setActiveTab(tabKey);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -97,19 +107,30 @@ function App() {
       <Navbar
         activeTab={activeTab}
         onSelectTab={handleTabChange}
-        onOpenDonation={() => setDonationModalOpen(true)}
+        onOpenDonation={() => handleTabChange('donasi')}
         onOpenAuth={handleOpenAuth}
       />
 
       {/* 2. TAB VIEWS */}
+      {/* TAB: DONASI FLOW (Figma Images 1, 2, 4, 5) */}
+      {activeTab === 'donasi' && (
+        <DonationFlow
+          onNavigateHome={() => handleTabChange('beranda')}
+          onOpenAuth={() => handleOpenAuth('login')}
+        />
+      )}
+
       {/* TAB: CEK GIZI / MONITORING KALKULATOR (Figma Image 4 & 5) */}
       {activeTab === 'cek-gizi' && (
-        <NutritionCalculator onNavigateTab={handleTabChange} />
+        <NutritionCalculator
+          onNavigateTab={handleTabChange}
+          onOpenDonation={() => handleTabChange('donasi')}
+        />
       )}
 
       {/* TAB: REKOMENDASI MAKANAN */}
       {activeTab === 'rekomendasi' && (
-        <FoodRecommendations onOpenDonation={() => setDonationModalOpen(true)} />
+        <FoodRecommendations onOpenDonation={() => handleTabChange('donasi')} />
       )}
 
       {/* TAB: MONITORING TUMBUH KEMBANG */}
@@ -117,56 +138,58 @@ function App() {
         <GrowthMonitoring onNavigateCalculator={() => handleTabChange('cek-gizi')} />
       )}
 
-      {/* TAB: BERANDA & EDUKASI */}
-      {(activeTab === 'beranda' || activeTab === 'edukasi') && (
+      {/* TAB: BERANDA */}
+      {activeTab === 'beranda' && (
         <>
-          {/* HERO SECTION (Figma Image 1) */}
-          {activeTab === 'beranda' && (
-            <section className="hero-section-figma">
-              <div className="hero-container">
-                {/* Left Text Content */}
-                <div className="hero-text-col">
-                  <h1 className="hero-headline">
-                    Cegah Malnutrisi <br />
-                    <span className="highlight-lime">Anak Sejak Dini</span>
-                  </h1>
-                  <p className="hero-subtitle">
-                    Kenali kondisi gizi anak, pahami kebutuhan nutrisinya, dan temukan langkah yang tepat untuk mendukung tumbuh kembang mereka.
-                  </p>
-                  <div className="hero-cta-group">
-                    <button
-                      type="button"
-                      className="btn btn-lime-figma btn-hero-primary"
-                      onClick={() => handleTabChange('cek-gizi')}
-                    >
-                      Cek gizi anak <span>&rarr;</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-pill-light btn-hero-secondary"
-                      onClick={() => {
-                        const el = document.getElementById('tentang-kami');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                    >
-                      Pelajari lebih lanjut
-                    </button>
-                  </div>
+          {/* HERO SECTION (Figma Image 1 & hero2.png) */}
+          <section className="hero-section-figma">
+            <div className="hero-container">
+              {/* Left Text Content */}
+              <div className="hero-text-col">
+                <div className="hero-badge-pill">
+                  <span className="badge-pill-icon">🍃</span>
+                  <span className="badge-pill-text">Solusi Gizi Cerdas &amp; Terpercaya</span>
                 </div>
-
-                {/* Right Hero Image (Hero2 Image) */}
-                <div className="hero-visual-col">
-                  <div className="hero-image-card">
-                    <img
-                      src={hero2Img}
-                      alt="Anak Sehat Masa Depan Kuat - Nutrikids"
-                      className="hero-main-img"
-                    />
-                  </div>
+                <h1 className="hero-headline">
+                  Cegah Malnutrisi <br />
+                  <span className="highlight-lime">Anak Sejak Dini</span>
+                </h1>
+                <p className="hero-subtitle">
+                  Kenali kondisi gizi anak, pahami kebutuhan nutrisinya, dan temukan langkah yang tepat untuk mendukung tumbuh kembang mereka.
+                </p>
+                <div className="hero-cta-group">
+                  <button
+                    type="button"
+                    className="btn btn-lime-figma btn-hero-primary"
+                    onClick={() => handleTabChange('cek-gizi')}
+                  >
+                    Cek gizi anak <span>&rarr;</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-pill-light btn-hero-secondary"
+                    onClick={() => {
+                      const el = document.getElementById('tentang-kami');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    Pelajari lebih lanjut
+                  </button>
                 </div>
               </div>
-            </section>
-          )}
+
+              {/* Right Hero Image (Figma Image 1 & hero2.png) */}
+              <div className="hero-visual-col">
+                <div className="hero-image-card">
+                  <img
+                    src={heroKid}
+                    alt="Anak Sehat Makan Sayur dan Makanan Bergizi - NutriKids"
+                    className="hero-main-img"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
 
           {/* ABOUT NUTRIKIDS SECTION (Figma Image 1 Bottom) */}
           <section id="tentang-kami" className="about-section-figma">
@@ -174,7 +197,6 @@ function App() {
               <div className="about-header">
                 <h2 className="about-title">NutriKids</h2>
                 <div className="about-title-underline"></div>
-                <span className="about-leaf-icon">🍃</span>
               </div>
 
               <p className="about-paragraph">
@@ -218,30 +240,44 @@ function App() {
             </div>
           </section>
 
-          {/* DONATION BANNER SECTION (Figma Image 2) */}
+          {/* DONATION BANNER SECTION (Exact Figma media_1789107378063.png) */}
           <section className="donation-banner-section">
-            <div className="donation-banner-card">
-              <h2 className="donation-banner-title">
-                Mulai bantu anak yang membutuhkan
-              </h2>
-              <p className="donation-banner-desc">
+            <div className="donation-banner-inner">
+              <p className="donation-banner-lead">
                 Di balik setiap angka statistik gizi anak, ada wajah dan nama. Melalui Nutrikids, kamu bisa
                 membantu keluarga yang sedang berjuang memenuhi kebutuhan gizi anaknya, bukan dengan uang tunai,
-                tapi langsung dalam bentuk paket makanan bergizi yang tepat sasaran. Setiap rupiah yang kamu berikan
-                bisa dipantau: ke mana perginya, siapa yang menerimanya, dan bagaimana perkembangannya.
+                tapi langsung dalam bentuk paket makanan bergizi yang tepat sasaran!
               </p>
+              <h2 className="donation-banner-focus">
+                Setiap rupiah yang kamu berikan bisa dipantau: ke mana perginya, siapa yang menerima, dan bagaimana perkembangannya.
+              </h2>
               <button
                 type="button"
-                className="btn btn-orange-figma btn-banner-donate"
-                onClick={() => setDonationModalOpen(true)}
+                className="btn-banner-donate-custom"
+                onClick={() => handleTabChange('donasi')}
+                aria-label="Donasi Sekarang"
               >
-                Donasi 🤲
+                <img
+                  src={btnDonasiOrange}
+                  alt="Donasi"
+                  className="btn-donasi-orange-img"
+                />
               </button>
             </div>
           </section>
+
+          {/* GREEN ROLLING HILLS / WAVES (Exact Figma media_1789107553004.png) */}
+          <div className="green-hills-section">
+            <img
+              src={greenWaveHills}
+              alt="Gelombang Hijau NutriKids"
+              className="green-hills-img"
+            />
+          </div>
         </>
       )}
 
+<<<<<<< HEAD
       {/* 3. ORGANIC WAVE DIVIDER & FOOTER (Figma Image 3) */}
       <div className="footer-wave-wrapper">
         <svg
@@ -341,6 +377,10 @@ function App() {
           <p>&copy; {new Date().getFullYear()} NutriKids Indonesia. Seluruh hak cipta dilindungi.</p>
         </div>
       </footer>
+=======
+      {/* 3. FOOTER (Figma Images 1, 4, 5) */}
+      <Footer onSelectTab={handleTabChange} />
+>>>>>>> e8f3460bd206e45566c9ee3ee84991c410b9ac75
 
       {/* 4. MODALS */}
       <AuthModal
@@ -354,11 +394,6 @@ function App() {
         isOpen={detailModalOpen}
         data={activeDetailData}
         onClose={() => setDetailModalOpen(false)}
-      />
-
-      <DonationModal
-        isOpen={donationModalOpen}
-        onClose={() => setDonationModalOpen(false)}
       />
     </div>
   );

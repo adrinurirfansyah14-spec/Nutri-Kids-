@@ -1,0 +1,653 @@
+/* ==========================================================================
+   DONATION FLOW STYLES (MATCHING FIGMA UI/UX STEPS 1-4)
+   Folder: src/components/DonationFlow.css
+   ========================================================================== */
+
+.donation-page-section {
+  background: linear-gradient(135deg, #fdfbf7 0%, #f4fbf8 50%, #e9f7f2 100%);
+  min-height: calc(100vh - 75px);
+  padding: 3.5rem 1.5rem 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.donation-page-container {
+  width: 100%;
+  max-width: 580px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Base Card Container */
+.donation-card-figma {
+  background-color: #ffffff;
+  border-radius: 36px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.02);
+  width: 100%;
+  padding: 3rem 2.75rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+/* ==========================================================================
+   STEP 1: NOMINAL DONASI (Image 2)
+   ========================================================================== */
+.donation-card-header {
+  margin-bottom: 1.75rem;
+}
+
+.donation-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.35rem;
+}
+
+.donation-subtitle {
+  font-size: 1.05rem;
+  color: #374151;
+}
+
+/* 4 Preset Pills */
+.nominal-preset-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 2rem;
+}
+
+.btn-nominal-pill {
+  background-color: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 9999px;
+  padding: 0.7rem 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #154634;
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  z-index: 5;
+  user-select: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+  text-align: center;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-nominal-pill:hover {
+  border-color: #30c596;
+  background-color: #f6fdf9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(48, 197, 150, 0.15);
+}
+
+.btn-nominal-pill:active {
+  transform: scale(0.96);
+}
+
+.btn-nominal-pill.active {
+  border-color: #154634;
+  background-color: #154634;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(21, 70, 52, 0.28);
+  transform: translateY(-2px);
+}
+
+/* Custom Nominal Input */
+.nominal-custom-block {
+  margin-bottom: 2.25rem;
+}
+
+.nominal-custom-label {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.nominal-input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #d8dedb;
+  border-radius: 6px;
+  padding: 0.95rem 1.25rem;
+  transition: background-color 0.2s;
+}
+
+.nominal-input-wrapper:focus-within {
+  background-color: #cfd8d4;
+}
+
+.nominal-prefix {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #475569;
+  margin-right: 0.75rem;
+  user-select: none;
+}
+
+.nominal-text-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  width: 100%;
+  font-family: inherit;
+}
+
+.nominal-min-hint {
+  display: block;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: 0.75rem;
+  font-weight: 500;
+}
+
+/* Universal Donation Primary Button */
+.btn-donation-primary {
+  background-color: #154634;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.95rem 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
+  font-family: inherit;
+}
+
+.btn-donation-primary:hover {
+  background-color: #0d3324;
+  box-shadow: 0 6px 18px rgba(21, 70, 52, 0.25);
+  transform: translateY(-1px);
+}
+
+.donation-error-alert {
+  background-color: #fef2f2;
+  color: #dc2626;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.65rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.25rem;
+  border: 1px solid #fecaca;
+}
+
+/* ==========================================================================
+   STEP 2: INFORMASI DONATUR (Image 1)
+   ========================================================================== */
+.step2-nominal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.step2-nominal-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.step2-label {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.step2-amount-display {
+  font-size: 1.15rem;
+  color: #154634;
+  font-weight: 800;
+}
+
+.btn-step2-change {
+  background: #ffffff;
+  border: 1.5px solid #154634;
+  color: #154634;
+  padding: 0.45rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-step2-change:hover {
+  background-color: #f0fdf4;
+}
+
+.donation-divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 1.25rem 0;
+}
+
+.step2-payment-method {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.step2-qris-badge {
+  display: flex;
+  align-items: center;
+}
+
+.qris-brand-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.step2-donor-header {
+  margin-bottom: 1.25rem;
+}
+
+.step2-donor-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.step2-donor-subtitle {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.step2-login-link {
+  color: #dc2626;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.step2-login-link:hover {
+  text-decoration: underline;
+}
+
+.form-group-figma {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1.1rem;
+}
+
+.form-label-figma {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.form-input-figma {
+  background-color: #f3f4f6;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  padding: 0.85rem 1.15rem;
+  font-size: 0.95rem;
+  color: #111827;
+  outline: none;
+  transition: all 0.2s;
+  font-family: inherit;
+  width: 100%;
+}
+
+.form-input-figma:focus {
+  border-color: #97c459;
+  background-color: #ffffff;
+}
+
+.form-input-figma::placeholder {
+  color: #9ca3af;
+}
+
+/* iOS Toggle Switch */
+.anonymous-toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 0 1rem;
+}
+
+.anonymous-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ios-toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.ios-toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-round {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: 0.3s;
+  border-radius: 34px;
+}
+
+.slider-round:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .slider-round {
+  background-color: #154634;
+}
+
+input:checked + .slider-round:before {
+  transform: translateX(24px);
+}
+
+.donation-thank-note {
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   STEP 3: PANDUAN PEMBAYARAN QRIS (Image 4)
+   ========================================================================== */
+.step-3-card {
+  max-width: 520px;
+}
+
+.step3-top-tag {
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin-bottom: 0.75rem;
+}
+
+.step3-center-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.step3-main-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #154634;
+  margin-bottom: 0.25rem;
+}
+
+.step3-subtitle {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 1.25rem;
+}
+
+.step3-big-amount {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #475569;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.step3-payment-note {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 0.65rem;
+}
+
+.step3-qris-icon-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.step3-qr-poster-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.step3-qr-poster-img {
+  width: 200px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.step3-download-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.75rem;
+}
+
+.btn-download-qr {
+  background: #ffffff;
+  border: 1.5px solid #154634;
+  color: #154634;
+  border-radius: 6px;
+  padding: 0.45rem 1.75rem;
+  font-weight: 700;
+  font-size: 0.925rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-download-qr:hover {
+  background-color: #f0fdf4;
+}
+
+/* Instructions Gray Card */
+.step3-instructions-card {
+  background-color: #e5e7eb;
+  border-radius: 18px;
+  padding: 1.35rem 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.instructions-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #154634;
+  text-align: center;
+  margin-bottom: 0.85rem;
+}
+
+.instructions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  color: #1f2937;
+}
+
+.instructions-list li {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.instructions-list li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #374151;
+}
+
+/* ==========================================================================
+   STEP 4: STATUS MENUNGGU PEMBAYARAN (Image 5)
+   ========================================================================== */
+.step-4-card {
+  max-width: 520px;
+}
+
+.step4-greeting-wrap {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.step4-thank-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #154634;
+  margin-bottom: 0.25rem;
+}
+
+.step4-thank-subtitle {
+  font-size: 1.15rem;
+  color: #111827;
+  font-weight: 500;
+}
+
+.step4-details-card {
+  background-color: #edf7f2;
+  border-radius: 18px;
+  padding: 1.35rem 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.step4-details-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #154634;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.step4-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.step4-detail-row:last-child {
+  margin-bottom: 0;
+}
+
+.step4-detail-row .nominal-text {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #154634;
+}
+
+/* Status Box Red Outline */
+.step4-status-box {
+  border: 1.5px solid #f87171;
+  background-color: #fff5f5;
+  border-radius: 6px;
+  padding: 0.85rem;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.step4-status-text {
+  color: #1f2937;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.btn-step4-retry {
+  margin-bottom: 1.25rem;
+}
+
+.step4-actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 0.85rem;
+}
+
+.btn-contact-cs {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  border: 1.5px solid #9ca3af;
+  color: #154634;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.925rem;
+  text-decoration: none;
+  padding: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.btn-contact-cs:hover {
+  background-color: #f9fafb;
+  border-color: #154634;
+}
+
+.btn-return-home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #97c459;
+  color: #111827;
+  border: none;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.925rem;
+  cursor: pointer;
+  padding: 0.85rem;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-return-home:hover {
+  background-color: #88b54b;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .donation-card-figma {
+    padding: 2.25rem 1.5rem;
+    border-radius: 24px;
+  }
+
+  .nominal-preset-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .step4-actions-row {
+    grid-template-columns: 1fr;
+  }
+}
