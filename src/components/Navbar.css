@@ -38,12 +38,16 @@
   padding: 0;
 }
 
-.logo-icon {
-  font-size: 1.5rem;
+.navbar-logo-img {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.2s ease;
 }
 
-.logo-text {
-  color: #111827;
+.navbar-logo-btn:hover .navbar-logo-img {
+  transform: scale(1.04);
 }
 
 /* Nav links (Frame 4 & Image 5 in Figma) */
@@ -109,13 +113,14 @@
 .btn-outline-figma {
   background-color: #ffffff;
   color: #1e293b;
-  border: 1.5px solid #0f172a;
+  border: 1.5px solid #475569;
 }
 
-.btn-outline-figma:hover {
-  background-color: #f8fafc;
-  border-color: var(--color-teal);
-  color: var(--color-teal);
+.btn-outline-figma:hover,
+.btn-outline-figma.active-donasi {
+  background-color: #f0fdf4;
+  border-color: #154634;
+  color: #154634;
   transform: translateY(-1px);
 }
 
