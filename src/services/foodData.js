@@ -1,0 +1,182 @@
+// 9 Data Menu Rekomendasi Makanan Lengkap & Presisi Sesuai UI/UX Figma Gambar 4 & 5
+export const FOOD_RECOMMENDATIONS_DATA = [
+  // --- ROW 1: BUDGET HEMAT ---
+  {
+    id: 'rec-sarapan-hemat',
+    mealTime: 'Sarapan',
+    budget: 'Hemat',
+    title: 'Nasi telur sayur + pisang',
+    items: ['Nasi', 'Telur dadar', 'Tumis bayam', 'Pisang', 'Susu'],
+    proteinSource: 'Telur, susu',
+    carbsSource: 'Nasi, pisang',
+    fruitVeggieSource: 'Bayam, pisang',
+    calories: '320 kkal',
+    proteinGrams: '13.5 gram',
+    benefits:
+      'Menu sarapan ekonomis namun padat zat besi dan protein hewani dari telur serta susu, efektif mencegah stunting sejak dini.',
+    instructions: [
+      'Kocok 1 butir telur dengan sejumput garam, dadar hingga matang keemasan.',
+      'Tumis segenggam bayam segar dengan irisan bawang merah dan putih sebentar agar vitamin C tetap terjaga.',
+      'Sajikan bersama 1 porsi nasi hangat pulen dan 1 buah pisang matang.',
+      'Lengkapi dengan segelas susu pertumbuhan hangat.',
+    ],
+  },
+  {
+    id: 'rec-siang-hemat',
+    mealTime: 'Makan siang',
+    budget: 'Hemat',
+    title: 'Nasi tempe orek + sop sayur',
+    items: ['Nasi', 'Tempe orek', 'Sop wortel kentang', 'Semangka'],
+    proteinSource: 'Tempe',
+    carbsSource: 'Nasi, kentang',
+    fruitVeggieSource: 'Wortel, semangka',
+    calories: '350 kkal',
+    proteinGrams: '11.0 gram',
+    benefits:
+      'Protein nabati dari tempe kaya isoflavon dipadu sup wortel segar kaya vitamin A dan antioksidan untuk kesehatan mata dan imunitas.',
+    instructions: [
+      'Potong tempe dadu kecil, goreng setengah matang, lalu tumis bersama bumbu kecap manis gurih.',
+      'Rebus irisan wortel dan kentang dalam kuah kaldu ayam gurih bertabur daun seledri.',
+      'Sajikan bersama nasi hangat dan potongan semangka manis menyegarkan.',
+    ],
+  },
+  {
+    id: 'rec-malam-hemat',
+    mealTime: 'Makan malam',
+    budget: 'Hemat',
+    title: 'Nasi telur balado + sayur asem',
+    items: ['Nasi', 'Telur balado', 'Sayur asem', 'Pisang'],
+    proteinSource: 'Telur',
+    carbsSource: 'Nasi',
+    fruitVeggieSource: 'Pisang, sayur asem',
+    calories: '340 kkal',
+    proteinGrams: '12.8 gram',
+    benefits:
+      'Kombinasi asam gurih menyegarkan yang membangkitkan selera makan anak dengan asupan protein hewani lengkap dari telur rebus balado.',
+    instructions: [
+      'Rebus telur ayam hingga matang sempurna, lalu balur dengan tumisan bumbu balado tomat ramah anak (tidak pedas).',
+      'Masak sayur asem bening dengan potongan labu siam, kacang panjang, dan jagung manis.',
+      'Sajikan bersama nasi pulen dan buah pisang ambon manis.',
+    ],
+  },
+
+  // --- ROW 2: BUDGET SEDANG ---
+  {
+    id: 'rec-sarapan-sedang',
+    mealTime: 'Sarapan',
+    budget: 'Sedang',
+    title: 'Roti isi telur + jus buah',
+    items: ['Roti gandum', 'Telur mata sapi', 'Selada & tomat', 'Alpukat', 'Jus jeruk'],
+    proteinSource: 'Telur',
+    carbsSource: 'Roti gandum',
+    fruitVeggieSource: 'Selada, tomat, alpukat, jeruk',
+    calories: '380 kkal',
+    proteinGrams: '15.0 gram',
+    benefits:
+      'Kaya serat lambat cerna dari gandum utuh dan asam folat serta lemak baik alpukat yang sangat penting untuk kecerdasan otak balita.',
+    instructions: [
+      'Panggang 2 lembar roti gandum utuh hingga wangi renyah.',
+      'Goreng telur mata sapi matang dengan sedikit mentega.',
+      'Susun daun selada segar, irisan tomat, dan alpukat matang di atas roti.',
+      'Sajikan dengan segelas jus jeruk murni tanpa tambahan gula pasir.',
+    ],
+  },
+  {
+    id: 'rec-siang-sedang',
+    mealTime: 'Makan siang',
+    budget: 'Sedang',
+    title: 'Nasi ikan bakar + tumis kangkung',
+    items: ['Nasi', 'Ikan bakar', 'Tumis kangkung', 'Tahu goreng', 'Pepaya'],
+    proteinSource: 'Ikan, Tahu',
+    carbsSource: 'Nasi',
+    fruitVeggieSource: 'Kangkung, pepaya',
+    calories: '410 kkal',
+    proteinGrams: '18.5 gram',
+    benefits:
+      'Ikan segar kaya akan asam lemak omega-3, kalsium, dan fosfor yang mempercepat pemadatan tulang dan lonjakan tinggi badan anak.',
+    instructions: [
+      'Bakar ikan nila atau kembung segar dengan olesan kecap manis dan ketumbar hingga matang harum.',
+      'Tumis kangkung segar sebentar dengan api besar bersama bawang putih.',
+      'Goreng tahu kuning sebagai sumber protein nabati pendamping.',
+      'Sajikan bersama nasi hangat dan buah pepaya matang kaya enzim papain untuk pencernaan.',
+    ],
+  },
+  {
+    id: 'rec-malam-sedang',
+    mealTime: 'Makan malam',
+    budget: 'Sedang',
+    title: 'Nasi ayam teriyaki + kentang goreng',
+    items: ['Nasi', 'Ayam teriyaki', 'Kentang goreng', 'Pisang'],
+    proteinSource: 'Ayam',
+    carbsSource: 'Nasi, kentang',
+    fruitVeggieSource: 'Pisang',
+    calories: '430 kkal',
+    proteinGrams: '21.0 gram',
+    benefits:
+      'Daging ayam empuk tinggi protein tanpa lemak jenuh berlebih, memberikan pemulihan energi optimal bagi anak setelah beraktivitas seharian.',
+    instructions: [
+      'Potong dada ayam dadu kecil, tumis bersama bawang bombay dan saus teriyaki gurih manis.',
+      'Goreng potongan kentang hingga renyah keemasan.',
+      'Tata di piring bersama nasi hangat dan irisan pisang manis.',
+    ],
+  },
+
+  // --- ROW 3: BUDGET TINGGI ---
+  {
+    id: 'rec-sarapan-tinggi',
+    mealTime: 'Sarapan',
+    budget: 'Tinggi',
+    title: 'Oatmeal salmon asap + buah beri',
+    items: ['Oatmeal', 'Salmon asap', 'Alpukat', 'Telur rebus', 'Buah beri campur'],
+    proteinSource: 'Salmon, telur',
+    carbsSource: 'Oatmeal',
+    fruitVeggieSource: 'Alpukat, buah beri',
+    calories: '420 kkal',
+    proteinGrams: '23.0 gram',
+    benefits:
+      'Menu premium kaya asam lemak EPA & DHA dari ikan salmon kualitas tinggi, antioksidan antosianin dari buah beri, dan beta-glukan untuk sistem kekebalan tubuh balita.',
+    instructions: [
+      'Seduh oatmeal instan dengan susu cair hangat hingga menjadi bubur kental lembut.',
+      'Letakkan irisan salmon asap segar dan telur rebus matang di atasnya.',
+      'Tambahkan potongan buah alpukat mentega dan taburan buah beri segar (stroberi/bluberi).',
+    ],
+  },
+  {
+    id: 'rec-siang-tinggi',
+    mealTime: 'Makan siang',
+    budget: 'Tinggi',
+    title: 'Nasi steak ayam + salad sayur',
+    items: ['Nasi merah', 'Steak ayam panggang', 'Salad sayur segar', 'Jagung manis', 'Jus alpukat'],
+    proteinSource: 'Ayam',
+    carbsSource: 'Nasi merah, jagung',
+    fruitVeggieSource: 'Salad sayur, alpukat',
+    calories: '460 kkal',
+    proteinGrams: '26.0 gram',
+    benefits:
+      'Kombinasi nasi merah berindeks glikemik rendah dan steak dada ayam panggang menjamin suplai asam amino esensial lengkap bagi pertumbuhan otot anak.',
+    instructions: [
+      'Panggang fillet dada ayam dengan bumbu rosemary dan minyak zaitun hingga matang merata dan empuk.',
+      'Kukus jagung manis dan rebus sayuran (brokoli, wortel, selada romaine) dengan sedikit minyak wijen.',
+      'Sajikan bersama nasi merah hangat dan segelas jus alpukat murni.',
+    ],
+  },
+  {
+    id: 'rec-malam-tinggi',
+    mealTime: 'Makan malam',
+    budget: 'Tinggi',
+    title: 'Nasi daging sapi lada hitam + brokoli',
+    items: ['Nasi merah', 'Daging sapi lada hitam', 'Brokoli kukus', 'Wortel', 'Apel'],
+    proteinSource: 'Daging sapi',
+    carbsSource: 'Nasi merah',
+    fruitVeggieSource: 'Brokoli, wortel, apel',
+    calories: '480 kkal',
+    proteinGrams: '24.5 gram',
+    benefits:
+      'Daging sapi adalah sumber zat besi heme dan zinc alami terbaik yang diserap tubuh secara maksimal untuk mempercepat pemulihan berat badan dan mencegah stunting.',
+    instructions: [
+      'Iris tipis daging sapi tenderloin, tumis cepat dengan saus lada hitam manis lembut dan irisan paprika.',
+      'Kukus kuntum brokoli hijau dan potongan wortel selama 3 menit agar tekstur tetap renyah bernutrisi.',
+      'Sajikan bersama nasi merah hangat dan potongan apel segar.',
+    ],
+  },
+];

@@ -1,0 +1,284 @@
+/* ==========================================================================
+   NUTRIKIDS - EDUKASI GIZI & PANDUAN NUTRISI
+   Sesuai dengan UI/UX Figma Gambar 1, 2, 3, 4
+   ========================================================================== */
+
+.education-page-wrapper {
+  background: linear-gradient(180deg, #f0fbf7 0%, #e2f6ee 100%);
+  min-height: 85vh;
+  padding: 3.5rem 1.5rem 5rem;
+  position: relative;
+}
+
+.education-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   1. EDUCATION CARDS GRID (3 Columns x 2 Rows - Gambar 1)
+   -------------------------------------------------------------------------- */
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 3.5rem;
+}
+
+.education-card {
+  background-color: #ffffff;
+  border-radius: 28px;
+  padding: 2.5rem 2.25rem 2.25rem;
+  border: 1.5px solid rgba(226, 232, 240, 0.85);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.education-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.07);
+  border-color: #bbf7d0;
+}
+
+.education-card-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 1rem;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+.education-card-desc {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #475569;
+  margin: 0 0 2rem;
+  flex: 1;
+}
+
+/* Button Cek Selengkapnya -> (Lime green rounded pill) */
+.btn-cek-selengkapnya {
+  background-color: #85c24e; /* Lime green from Figma */
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.7rem 1.75rem;
+  font-size: 0.925rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  align-self: flex-start;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(133, 194, 78, 0.25);
+  font-family: inherit;
+}
+
+.btn-cek-selengkapnya .arrow-icon {
+  transition: transform 0.2s ease;
+}
+
+.btn-cek-selengkapnya:hover {
+  background-color: #74ae3e;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(133, 194, 78, 0.35);
+}
+
+.btn-cek-selengkapnya:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   2. DETAIL MODAL (Figma Gambar 2, 3, 4)
+   -------------------------------------------------------------------------- */
+.education-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2100;
+  padding: 1.5rem;
+  animation: fadeInEduModal 0.2s ease;
+}
+
+@keyframes fadeInEduModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.education-modal-content {
+  background-color: #ffffff;
+  border-radius: 32px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  padding: 2.5rem 2.75rem 2rem;
+  position: relative;
+  animation: scaleUpEduModal 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scaleUpEduModal {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.education-modal-close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.75rem;
+  background: #f1f5f9;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.education-modal-close-btn:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.education-modal-header-title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 1.5rem;
+  line-height: 1.3;
+  padding-right: 2.5rem;
+  letter-spacing: -0.02em;
+}
+
+.education-modal-scrollable {
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  flex: 1;
+}
+
+/* Custom Scrollbar */
+.education-modal-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+.education-modal-scrollable::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.education-article-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  font-size: 0.975rem;
+  line-height: 1.75;
+  color: #334155;
+}
+
+.education-article-body p {
+  margin: 0;
+}
+
+.education-highlight-block {
+  background-color: #f8fafc;
+  border-left: 4px solid #85c24e;
+  border-radius: 0 16px 16px 0;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.education-highlight-block h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.education-highlight-block ul,
+.education-highlight-block ol {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.education-highlight-block li {
+  font-size: 0.925rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.education-modal-footer {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-close-modal-green {
+  background-color: #85c24e;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.75rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-close-modal-green:hover {
+  background-color: #74ae3e;
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   3. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .education-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .education-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .education-modal-content {
+    padding: 2rem 1.5rem 1.5rem;
+    border-radius: 24px;
+  }
+}

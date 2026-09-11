@@ -5,20 +5,37 @@ import AuthModal from './components/AuthModal';
 import DetailModal from './components/DetailModal';
 import DonationFlow from './components/DonationFlow';
 import NutritionCalculator from './components/NutritionCalculator';
+import NutritionHistory from './components/NutritionHistory';
 import FoodRecommendations from './components/FoodRecommendations';
-import GrowthMonitoring from './components/GrowthMonitoring';
+import Education from './components/Education';
+import { clearGrowthRecords } from './services/nutritionCalculator';
+import { removeToken } from './services/api';
 import heroKid from './assets/hero2.png';
 import btnDonasiOrange from './assets/btn-donasi-orange.png';
 import greenWaveHills from './assets/green-wave-hills.png';
 import './App.css';
 
 function App() {
-  // Navigation active tab: 'beranda' | 'cek-gizi' | 'rekomendasi' | 'monitoring' | 'donasi'
+  // Navigation active tab: 'beranda' | 'cek-gizi' | 'rekomendasi' | 'edukasi' | 'riwayat' | 'donasi'
   const [activeTab, setActiveTab] = useState('beranda');
+
+  // Auth state global tersimpan di localStorage
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nutrikids_auth_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  });
 
   // Modal states
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authInitialMode, setAuthInitialMode] = useState('login');
+  const [authPromptTitle, setAuthPromptTitle] = useState('');
+  const [authPromptSubtitle, setAuthPromptSubtitle] = useState('');
+  const [pendingAuthAction, setPendingAuthAction] = useState(null);
+
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [activeDetailData, setActiveDetailData] = useState(null);
 
@@ -78,9 +95,35 @@ function App() {
     },
   ];
 
-  const handleOpenAuth = (mode = 'login') => {
+  const handleOpenAuth = (mode = 'login', promptTitle = '', promptSubtitle = '') => {
     setAuthInitialMode(mode);
+    setAuthPromptTitle(promptTitle);
+    setAuthPromptSubtitle(promptSubtitle);
     setAuthModalOpen(true);
+  };
+
+  const handleLoginSuccess = (userData) => {
+    setCurrentUser(userData);
+    localStorage.setItem('nutrikids_auth_user', JSON.stringify(userData));
+
+    // Jika ada pending action (misal: simpan data cek gizi setelah login)
+    if (pendingAuthAction && typeof pendingAuthAction.onSuccess === 'function') {
+      pendingAuthAction.onSuccess(userData);
+      setPendingAuthAction(null);
+    }
+  };
+
+  const handleLogout = () => {
+    if (currentUser) {
+      const userKey = currentUser.email || currentUser.username || currentUser.id;
+      clearGrowthRecords(userKey);
+    }
+    removeToken();
+    setCurrentUser(null);
+    localStorage.removeItem('nutrikids_auth_user');
+    if (activeTab === 'riwayat') {
+      setActiveTab('beranda');
+    }
   };
 
   const handleOpenDetail = (cardData) => {
@@ -89,42 +132,55 @@ function App() {
   };
 
   const handleTabChange = (tabKey) => {
-    if (tabKey === 'edukasi') {
-      setActiveTab('beranda');
-      setTimeout(() => {
-        const el = document.getElementById('edukasi');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 50);
-      return;
-    }
     setActiveTab(tabKey);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <div className="nutrikids-app">
-      {/* 1. NAVBAR (Figma Frame 3, 15 & Image 5) */}
+      {/* 1. NAVBAR DENGAN LOGIKA AUTH & PROFIL LENGKAP */}
       <Navbar
         activeTab={activeTab}
         onSelectTab={handleTabChange}
         onOpenDonation={() => handleTabChange('donasi')}
         onOpenAuth={handleOpenAuth}
+        currentUser={currentUser}
+        onLogout={handleLogout}
       />
 
       {/* 2. TAB VIEWS */}
-      {/* TAB: DONASI FLOW (Figma Images 1, 2, 4, 5) */}
+      {/* TAB: DONASI FLOW (Autofill data akun jika sudah login) */}
       {activeTab === 'donasi' && (
         <DonationFlow
+          currentUser={currentUser}
           onNavigateHome={() => handleTabChange('beranda')}
           onOpenAuth={() => handleOpenAuth('login')}
         />
       )}
 
-      {/* TAB: CEK GIZI / MONITORING KALKULATOR (Figma Image 4 & 5) */}
+      {/* TAB: CEK GIZI / HASIL SKRINING */}
       {activeTab === 'cek-gizi' && (
         <NutritionCalculator
+          currentUser={currentUser}
           onNavigateTab={handleTabChange}
           onOpenDonation={() => handleTabChange('donasi')}
+          onRequireAuth={(action) => {
+            setPendingAuthAction(action);
+            handleOpenAuth(
+              'login',
+              'Masuk untuk Menyimpan Data',
+              'Silakan masuk atau mendaftar akun terlebih dahulu untuk menyimpan catatan gizi anak.'
+            );
+          }}
+        />
+      )}
+
+      {/* TAB: RIWAYAT CEK GIZI (Khusus Data yang Disimpan Secara Eksplisit) */}
+      {activeTab === 'riwayat' && (
+        <NutritionHistory
+          currentUser={currentUser}
+          onNavigateTab={handleTabChange}
+          onOpenAuth={handleOpenAuth}
         />
       )}
 
@@ -133,9 +189,9 @@ function App() {
         <FoodRecommendations onOpenDonation={() => handleTabChange('donasi')} />
       )}
 
-      {/* TAB: MONITORING TUMBUH KEMBANG */}
-      {activeTab === 'monitoring' && (
-        <GrowthMonitoring onNavigateCalculator={() => handleTabChange('cek-gizi')} />
+      {/* TAB: EDUKASI MANDIRI (6 Kartu & Modal Detail) */}
+      {activeTab === 'edukasi' && (
+        <Education onSelectTab={handleTabChange} />
       )}
 
       {/* TAB: BERANDA */}
@@ -265,17 +321,17 @@ function App() {
               </button>
             </div>
           </section>
-
-          {/* GREEN ROLLING HILLS / WAVES (Exact Figma media_1789107553004.png) */}
-          <div className="green-hills-section">
-            <img
-              src={greenWaveHills}
-              alt="Gelombang Hijau NutriKids"
-              className="green-hills-img"
-            />
-          </div>
         </>
       )}
+
+      {/* GREEN ROLLING HILLS / WAVES (Exact Figma di atas footer pada semua halaman) */}
+      <div className="green-hills-section">
+        <img
+          src={greenWaveHills}
+          alt="Gelombang Hijau NutriKids"
+          className="green-hills-img"
+        />
+      </div>
 
       {/* 3. FOOTER (Figma Images 1, 4, 5) */}
       <Footer onSelectTab={handleTabChange} />
@@ -285,7 +341,13 @@ function App() {
         key={`${authModalOpen}-${authInitialMode}`}
         isOpen={authModalOpen}
         initialMode={authInitialMode}
-        onClose={() => setAuthModalOpen(false)}
+        authPromptTitle={authPromptTitle}
+        authPromptSubtitle={authPromptSubtitle}
+        onLoginSuccess={handleLoginSuccess}
+        onClose={() => {
+          setAuthModalOpen(false);
+          setPendingAuthAction(null);
+        }}
       />
 
       <DetailModal

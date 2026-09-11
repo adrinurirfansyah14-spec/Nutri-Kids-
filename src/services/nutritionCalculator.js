@@ -117,12 +117,34 @@ export function calculateChildNutrition({ gender, ageMonths, weightKg, heightCm 
     weightStatus = { text: 'Risiko Berat Badan Lebih', level: 'warning', color: '#F59E0B', desc: 'Batasi camilan manis, perbanyak aktivitas fisik aktif.' };
   }
 
-  // Kategori TB/U (Stunting)
+  // Kategori TB/U (Deteksi Risiko Stunting sesuai Standar Kemenkes/WHO)
   let heightStatus = { text: 'Tinggi Badan Normal', level: 'normal', color: '#10B981', desc: 'Panjang/tinggi badan anak optimal sesuai usianya.' };
+  let stuntingRisk = {
+    title: 'Risiko stunting rendah',
+    level: 'normal',
+    color: '#15803d',
+    subtextLine1: 'hasil skinning menunjukan Kondisi',
+    subtextLine2: 'Pertumbuhan dalam batas normal',
+  };
+
   if (zHeightForAge < -3) {
     heightStatus = { text: 'Sangat Pendek (Severely Stunted)', level: 'danger', color: '#EF4444', desc: 'Anak mengalami stunting berat. Butuh stimulasi dan terapi gizi oleh dokter anak.' };
+    stuntingRisk = {
+      title: 'Resiko stunting tinggi',
+      level: 'danger',
+      color: '#dc2626',
+      subtextLine1: 'hasil skinning menunjukan Kondisi',
+      subtextLine2: 'Pertumbuhan sangat di bawah rata-rata (Stunting berat)',
+    };
   } else if (zHeightForAge < -2) {
-    heightStatus = { text: 'Pendek (Stunted)', level: 'warning', color: '#F59E0B', desc: 'Terindikasi stunting. Optimalkan 1000 HPK dengan konsumsi protein hewani setiap makan.' };
+    heightStatus = { text: 'Pendek (Stunted)', level: 'warning', color: '#F59E0B', desc: 'Terindikasi stunting. Optimalkan asupan protein hewani dan konsultasikan ke faskes.' };
+    stuntingRisk = {
+      title: 'Resiko stunting sedang',
+      level: 'warning',
+      color: '#d97706',
+      subtextLine1: 'hasil skinning menunjukan Kondisi',
+      subtextLine2: 'Pertumbuhan di bawah rata-rata (Perlu perhatian gizi)',
+    };
   } else if (zHeightForAge > 3) {
     heightStatus = { text: 'Tinggi', level: 'normal', color: '#3B82F6', desc: 'Pertumbuhan tinggi badan berada di atas rata-rata usianya.' };
   }
@@ -188,6 +210,7 @@ export function calculateChildNutrition({ gender, ageMonths, weightKg, heightCm 
     idealHeight,
     weightStatus,
     heightStatus,
+    stuntingRisk,
     wastingStatus,
     dailyCalories,
     dailyProtein,
@@ -197,48 +220,90 @@ export function calculateChildNutrition({ gender, ageMonths, weightKg, heightCm 
   };
 }
 
-// LocalStorage helpers untuk Riwayat Monitoring
-const STORAGE_KEY = 'nutrikids_growth_records_v1';
+// Helper pembentukan kunci localStorage berdasarkan identitas akun pengguna
+const getStorageKey = (userKey) => {
+  if (!userKey) return 'nutrikids_riwayat_guest';
+  const clean = String(userKey).trim().toLowerCase().replace(/[^a-z0-9_]/g, '_');
+  return `nutrikids_riwayat_${clean}`;
+};
 
-export function getSavedGrowthRecords() {
+// Format tanggal sebagai DD/MM/YY (contoh: 11/01/26)
+export function formatToShortDate(dateObj = new Date()) {
+  const d = String(dateObj.getDate()).padStart(2, '0');
+  const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const y = String(dateObj.getFullYear()).slice(-2);
+  return `${d}/${m}/${y}`;
+}
+
+// Ambil riwayat tersimpan untuk akun tertentu (default kosong [] jika belum ada simpanan manual)
+export function getSavedGrowthRecords(userKey) {
+  if (!userKey) return [];
   try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    const key = getStorageKey(userKey);
+    const data = localStorage.getItem(key);
+    if (!data) return [];
+    const parsed = JSON.parse(data);
+    return Array.isArray(parsed) ? parsed : [];
   } catch (e) {
-    console.error('Gagal mengambil data monitoring:', e);
+    console.error('Gagal mengambil data riwayat cek gizi:', e);
     return [];
   }
 }
 
-export function saveGrowthRecord(record) {
+// Simpan catatan hanya saat tombol "Simpan data" diklik pengguna
+export function saveGrowthRecord(record, userKey) {
+  if (!userKey) return [];
   try {
-    const current = getSavedGrowthRecords();
+    const key = getStorageKey(userKey);
+    const current = getSavedGrowthRecords(userKey);
     const newRecord = {
       id: Date.now().toString(),
+      childName: record.childName || 'Anak',
+      gender: record.gender || 'boy',
+      dateLabel: record.dateLabel || formatToShortDate(),
+      ageMonths: record.ageMonths,
+      ageDisplay: record.ageDisplay || `${record.ageMonths} Bulan`,
+      heightCm: record.heightCm,
+      weightKg: record.weightKg,
+      statusText: record.stuntingRisk?.title || record.statusText || 'Risiko stunting rendah',
+      statusLevel: record.stuntingRisk?.level || record.statusLevel || 'normal',
+      statusColor: record.stuntingRisk?.color || record.statusColor || '#15803d',
+      timestamp: new Date().toISOString(),
       ...record,
-      dateLabel: new Date().toLocaleDateString('id-ID', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-      }),
     };
     const updated = [newRecord, ...current];
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    localStorage.setItem(key, JSON.stringify(updated));
     return updated;
   } catch (e) {
-    console.error('Gagal menyimpan data monitoring:', e);
+    console.error('Gagal menyimpan riwayat cek gizi:', e);
     return [];
   }
 }
 
-export function deleteGrowthRecord(id) {
+// Hapus catatan tertentu dari riwayat akun
+export function deleteGrowthRecord(id, userKey) {
+  if (!userKey) return [];
   try {
-    const current = getSavedGrowthRecords();
+    const key = getStorageKey(userKey);
+    const current = getSavedGrowthRecords(userKey);
     const filtered = current.filter((item) => item.id !== id);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+    localStorage.setItem(key, JSON.stringify(filtered));
     return filtered;
   } catch (e) {
-    console.error('Gagal menghapus data monitoring:', e);
+    console.error('Gagal menghapus catatan riwayat cek gizi:', e);
     return [];
+  }
+}
+
+// Hapus seluruh riwayat akun (dipanggil otomatis saat user melakukan logout)
+export function clearGrowthRecords(userKey) {
+  if (!userKey) return;
+  try {
+    const key = getStorageKey(userKey);
+    localStorage.removeItem(key);
+    localStorage.removeItem('nutrikids_growth_records_v1');
+    localStorage.removeItem('nutrikids_riwayat_guest');
+  } catch (e) {
+    console.error('Gagal membersihkan riwayat akun:', e);
   }
 }
