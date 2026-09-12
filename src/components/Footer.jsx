@@ -1,4 +1,5 @@
 import React from 'react';
+import nutriKidsLogo from '../assets/nutrikids-logo.png';
 import './Footer.css';
 
 export default function Footer({ onSelectTab }) {
@@ -12,13 +13,15 @@ export default function Footer({ onSelectTab }) {
   return (
     <footer className="footer-figma">
       <div className="footer-container">
-        {/* Kolom 1: Tentang Kami */}
-        <div className="footer-col">
-          <h3 className="footer-col-title">Tentang kami</h3>
+        {/* Kolom 1: Logo & Tentang Kami */}
+        <div className="footer-col footer-col-brand">
+          <div className="footer-logo-wrap">
+            <img src={nutriKidsLogo} alt="NutriKids Logo" className="footer-logo-img" />
+          </div>
           <p className="footer-text">
-            Kami membuat Nutrikids sebagai mendukung upaya promotif dan preventif dalam mencegah masalah
+            Nutrikids sebagai upaya promotif dan preventif dalam mencegah masalah
             malnutrisi pada anak. Nutrikids membantu orang tua melakukan deteksi dini, memperoleh edukasi
-            dan rekomendasi gizi, serta memantau pertumbuhan anak.
+            dan rekomendasi gizi, serta memantau pertumbuhan anak secara berkelanjutan.
           </p>
         </div>
 

@@ -1,348 +1,491 @@
 /* ==========================================================================
-   FOOD RECOMMENDATIONS STYLES
-   Folder: src/components/FoodRecommendations.css
+   NUTRIKIDS - REKOMENDASI MAKANAN
+   Sesuai dengan UI/UX Figma Gambar 4 & 5
    ========================================================================== */
 
-.food-rec-page {
-  background-color: #f8fafc;
-  min-height: 100vh;
-  padding-bottom: 5rem;
-}
-
-.food-rec-header {
-  background: linear-gradient(135deg, #fdf6ec 0%, #e8f8f2 100%);
-  padding: 4rem 1.5rem 3rem;
-  text-align: center;
+.food-recommendations-page {
+  background: linear-gradient(180deg, #f0fbf7 0%, #e2f6ee 100%);
+  min-height: 85vh;
+  padding: 3rem 1.5rem 5rem;
+  position: relative;
 }
 
 .food-rec-container {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 0 1.25rem;
-}
-
-.food-rec-tag {
-  display: inline-block;
-  background-color: #e6f9f3;
-  color: #0d9488;
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 0.35rem 0.95rem;
-  border-radius: 9999px;
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.food-rec-title {
-  font-size: clamp(2rem, 3.5vw, 2.75rem);
-  font-weight: 800;
-  color: #0f172a;
-  letter-spacing: -0.02em;
-  margin-bottom: 1rem;
-}
-
-.food-rec-subtitle {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  color: #475569;
-  max-width: 720px;
-  margin: 0 auto 2rem;
-}
-
-.food-search-box {
-  max-width: 580px;
-  margin: 0 auto;
-  position: relative;
-}
-
-.search-icon {
-  position: absolute;
-  left: 1.25rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.15rem;
-  color: #94a3b8;
-}
-
-.food-search-input {
   width: 100%;
-  padding: 0.95rem 1.25rem 0.95rem 3.25rem;
-  border-radius: 9999px;
-  border: 1.5px solid #cbd5e1;
+}
+
+/* --------------------------------------------------------------------------
+   1. FILTER BAR (Tabs Waktu Makan & Dropdown Budget)
+   -------------------------------------------------------------------------- */
+.food-filter-bar-card {
   background-color: #ffffff;
-  font-size: 1rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  border-radius: 9999px;
+  padding: 0.65rem 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1.5px solid rgba(226, 232, 240, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2.75rem;
+  flex-wrap: wrap;
+}
+
+.meal-tabs-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.meal-tab-btn {
+  border: none;
+  background: transparent;
+  padding: 0.65rem 1.75rem;
+  border-radius: 9999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.meal-tab-btn:hover {
+  color: #20c997;
+  background-color: #f0fdf9;
+}
+
+.meal-tab-btn.active {
+  background-color: #20c997; /* Active Teal */
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(32, 201, 151, 0.3);
+}
+
+/* Budget Dropdown */
+.budget-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.budget-filter-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.budget-select-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.budget-modern-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 9999px;
+  padding: 0.55rem 2.5rem 0.55rem 1.45rem;
+  font-size: 0.925rem;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
   outline: none;
   transition: all 0.2s ease;
+  font-family: inherit;
 }
 
-.food-search-input:focus {
-  border-color: #30c596;
-  box-shadow: 0 8px 24px rgba(48, 197, 150, 0.2);
+.budget-modern-select:focus {
+  border-color: #20c997;
+  box-shadow: 0 0 0 2px rgba(32, 201, 151, 0.25);
 }
 
-/* Category Tabs */
-.category-tabs-scroll {
-  display: flex;
-  gap: 0.75rem;
-  overflow-x: auto;
-  padding: 2rem 0 1.5rem;
-  scrollbar-width: thin;
+.select-arrow-icon {
+  position: absolute;
+  right: 1.15rem;
+  pointer-events: none;
+  color: #64748b;
+  font-size: 0.85rem;
 }
 
-.cat-pill-btn {
-  white-space: nowrap;
-  padding: 0.6rem 1.35rem;
-  border-radius: 9999px;
-  font-size: 0.925rem;
-  font-weight: 700;
+/* --------------------------------------------------------------------------
+   2. FOOD CARDS GRID (3 Columns)
+   -------------------------------------------------------------------------- */
+.food-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 3.5rem;
+}
+
+.food-card-modern {
   background-color: #ffffff;
+  border-radius: 28px;
+  padding: 2.25rem 2rem 2.25rem;
+  border: 1.5px solid rgba(226, 232, 240, 0.85);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+.food-card-modern:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.07);
+  border-color: #bbf7d0;
+}
+
+/* Badges: [Waktu Makan] [Budget] */
+.food-card-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.35rem;
+  flex-wrap: wrap;
+}
+
+.badge-cyan {
+  background-color: #4ee0cd; /* Bright Cyan from Figma */
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 0.35rem 1.25rem;
+  font-size: 0.825rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: -0.01em;
+  box-shadow: 0 2px 6px rgba(78, 224, 205, 0.25);
+}
+
+.budget-badge {
+  background-color: #38bdf8; /* Soft Sky Cyan */
+}
+
+/* Card Title */
+.food-card-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 1.35rem;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+/* Ingredients Bullet List */
+.food-card-items-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.food-item-bullet {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.925rem;
   color: #475569;
-  border: 1.5px solid #e2e8f0;
+  font-weight: 500;
+}
+
+.bullet-dot {
+  color: #334155;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Divider Line */
+.food-card-divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin-bottom: 1.35rem;
+  width: 100%;
+}
+
+/* Nutrient Details Breakdown */
+.food-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 0.5rem;
+}
+
+.nutrient-row {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #475569;
+}
+
+.nutrient-row strong {
+  color: #111827;
+  font-weight: 700;
+  margin-right: 0.35rem;
+}
+
+.nutrient-row span {
+  color: #475569;
+}
+
+/* Hover Hint */
+.food-card-hover-hint {
+  margin-top: auto;
+  padding-top: 1rem;
+  font-size: 0.825rem;
+  font-weight: 700;
+  color: #10b981;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(3px);
+}
+
+.food-card-modern:hover .food-card-hover-hint {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Empty State */
+.food-empty-state {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 4rem 2rem;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.food-empty-state h3 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.food-empty-state p {
+  color: #64748b;
+  margin-bottom: 1.75rem;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   3. DETAIL RECIPE MODAL
+   -------------------------------------------------------------------------- */
+.food-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1.5rem;
+  animation: fadeInModal 0.2s ease;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.food-modal-card {
+  background-color: #ffffff;
+  border-radius: 32px;
+  max-width: 620px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+  padding: 2.5rem;
+  position: relative;
+  animation: scaleUpModal 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scaleUpModal {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.food-modal-close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: #f1f5f9;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #475569;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.cat-pill-btn:hover {
-  border-color: #97c459;
-  color: #111827;
-}
-
-.cat-pill-btn.active {
-  background-color: #97c459;
-  color: #111827;
-  border-color: #97c459;
-  box-shadow: 0 6px 16px rgba(151, 196, 89, 0.35);
-}
-
-/* Recipes Grid */
-.recipes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 1.75rem;
-  margin-bottom: 3.5rem;
-}
-
-.recipe-card {
-  background-color: #ffffff;
-  border-radius: 24px;
-  padding: 1.85rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  border: 1px solid #f1f5f9;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: all 0.3s ease;
-}
-
-.recipe-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
-  border-color: #bbf7d0;
-}
-
-.recipe-card-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-
-.recipe-badge-age {
-  background-color: #f1f5f9;
-  color: #334155;
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 0.3rem 0.75rem;
-  border-radius: 8px;
-}
-
-.recipe-badge-tag {
-  background-color: #ecfdf5;
-  color: #059669;
-  font-size: 0.8rem;
-  font-weight: 800;
-  padding: 0.3rem 0.75rem;
-  border-radius: 8px;
-}
-
-.recipe-title {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 0.75rem;
-  line-height: 1.35;
-}
-
-.recipe-benefits {
-  font-size: 0.9rem;
-  color: #475569;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  flex-grow: 1;
-}
-
-.recipe-nutrition-bar {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.2fr;
-  background-color: #f8fafc;
-  border-radius: 14px;
-  padding: 0.75rem;
-  margin-bottom: 1.25rem;
-  border: 1px solid #f1f5f9;
-}
-
-.nutri-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.nutri-label {
-  font-size: 0.75rem;
-  color: #64748b;
-  font-weight: 600;
-}
-
-.nutri-val {
-  font-size: 0.875rem;
-  font-weight: 800;
+.food-modal-close-btn:hover {
+  background-color: #e2e8f0;
   color: #0f172a;
 }
 
-.recipe-card-footer {
-  margin-top: auto;
-}
-
-.btn-view-recipe {
-  width: 100%;
-  padding: 0.75rem 1.25rem;
-  font-size: 0.95rem;
-  font-weight: 700;
+.food-modal-badges {
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
-/* Callout Donasi */
-.food-donation-callout {
-  background-color: #30c596;
-  border-radius: 24px;
-  padding: 2.5rem;
-  color: #064e3b;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  box-shadow: 0 12px 32px rgba(48, 197, 150, 0.25);
-}
-
-.callout-text h3 {
-  font-size: 1.4rem;
+.food-modal-title {
+  font-size: 1.6rem;
   font-weight: 800;
-  color: #064e3b;
-  margin-bottom: 0.5rem;
+  color: #111827;
+  margin: 0 0 1.5rem;
+  line-height: 1.3;
 }
 
-.callout-text p {
-  color: #ffffff;
-  font-weight: 500;
-  max-width: 680px;
-}
-
-.btn-callout-donate {
-  padding: 0.85rem 2rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-/* Recipe Detail Modal */
-.recipe-modal-card {
-  max-width: 600px;
-}
-
-.recipe-modal-header {
-  margin-bottom: 1.5rem;
-}
-
-.modal-recipe-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0.5rem 0 0.85rem;
-}
-
-.modal-nutri-badges {
+.food-modal-metrics {
   display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
 }
 
-.modal-nutri-badges span {
-  background-color: #f1f5f9;
-  padding: 0.35rem 0.85rem;
-  border-radius: 9999px;
-  font-size: 0.85rem;
+.metric-chip {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 16px;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.chip-label {
+  font-size: 0.75rem;
   font-weight: 700;
-  color: #334155;
+  color: #166534;
+  text-transform: uppercase;
 }
 
-.recipe-section-block {
-  margin-bottom: 1.5rem;
+.chip-val {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #15803d;
 }
 
-.recipe-section-block h4 {
+.modal-section-block {
+  margin-bottom: 1.75rem;
+}
+
+.modal-sec-title {
   font-size: 1.05rem;
   font-weight: 800;
-  color: #1e293b;
-  margin-bottom: 0.65rem;
+  color: #111827;
+  margin: 0 0 0.65rem;
 }
 
-.ingredients-list,
-.steps-list {
-  padding-left: 1.25rem;
+.modal-benefits-desc {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #475569;
+  margin: 0;
+}
+
+.modal-nutrient-summary {
+  background-color: #f8fafc;
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
+}
+
+.modal-nutrient-summary p {
+  margin: 0;
+  font-size: 0.9rem;
   color: #475569;
-  font-size: 0.95rem;
-  line-height: 1.55;
 }
 
-.recipe-tips-alert {
-  background-color: #f0fdf4;
-  border-left: 4px solid #16a34a;
-  padding: 1rem 1.25rem;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
+.modal-nutrient-summary strong {
+  color: #1e293b;
 }
 
-.recipe-tips-alert strong {
-  color: #15803d;
-  display: block;
-  margin-bottom: 0.25rem;
+.modal-steps-list {
+  padding-left: 1.25rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
 }
 
-.recipe-tips-alert p {
-  color: #166534;
+.modal-steps-list li {
   font-size: 0.925rem;
-  line-height: 1.5;
+  line-height: 1.6;
+  color: #334155;
 }
 
-.no-recipes-box {
-  background-color: #ffffff;
-  padding: 3rem;
-  text-align: center;
-  border-radius: 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+.food-modal-footer {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.no-recipes-box p {
-  font-size: 1.1rem;
-  color: #64748b;
-  margin-bottom: 1.25rem;
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .food-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .food-filter-bar-card {
+    border-radius: 28px;
+    padding: 1.25rem;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .meal-tabs-group {
+    justify-content: center;
+  }
+
+  .budget-filter-group {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .budget-select-wrapper {
+    flex: 1;
+  }
+
+  .budget-modern-select {
+    width: 100%;
+  }
+
+  .food-cards-grid {
+    grid-template-columns: 1fr;
+  }
 }

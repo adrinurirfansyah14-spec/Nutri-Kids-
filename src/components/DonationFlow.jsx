@@ -1,22 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import qrisLogo from '../assets/qris-logo.png';
 import qrisCode from '../assets/qris-code.png';
+import { donationApi, getToken } from '../services/api';
 import './DonationFlow.css';
 
-export default function DonationFlow({ onNavigateHome, onOpenAuth }) {
+export default function DonationFlow({ onNavigateHome, onOpenAuth, currentUser }) {
   // Step 1: Nominal
   // Step 2: Informasi donatur
   // Step 3: Panduan pembayaran QRIS
   // Step 4: Status transaksi (Menunggu pembayaran)
   const [step, setStep] = useState(1);
+  const [activePrograms, setActivePrograms] = useState([]);
 
   // Form State
   const [nominal, setNominal] = useState(50000);
-  const [fullName, setFullName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState(currentUser?.name || currentUser?.username || '');
+  const [phone, setPhone] = useState(currentUser?.phone || '');
+  const [email, setEmail] = useState(currentUser?.email || '');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Sinkronisasi otomatis data akun jika login/ganti akun
+  useEffect(() => {
+    if (currentUser) {
+      setFullName(currentUser.name || currentUser.username || '');
+      setEmail(currentUser.email || '');
+      setPhone(currentUser.phone || '');
+    }
+  }, [currentUser]);
+
+  // Muat program donasi aktif dari backend
+  useEffect(() => {
+    const fetchPrograms = async () => {
+      try {
+        const res = await donationApi.getPrograms();
+        if (res && res.success && Array.isArray(res.programs)) {
+          setActivePrograms(res.programs);
+        }
+      } catch (err) {
+        console.warn('[NutriKids API] Memakai data program donasi lokal:', err.message);
+      }
+    };
+    fetchPrograms();
+  }, []);
 
   const PRESET_NOMINALS = [30000, 50000, 75000, 100000];
 
@@ -53,7 +79,7 @@ export default function DonationFlow({ onNavigateHome, onOpenAuth }) {
   };
 
   // Step 2: Handle Donor Info
-  const handleNextToStep3 = (e) => {
+  const handleNextToStep3 = async (e) => {
     e.preventDefault();
     if (!isAnonymous && !fullName.trim()) {
       setErrorMsg('Silakan masukkan nama lengkap Anda.');
@@ -63,6 +89,22 @@ export default function DonationFlow({ onNavigateHome, onOpenAuth }) {
       setErrorMsg('Silakan masukkan nomor telepon Anda.');
       return;
     }
+
+    // Sinkronisasi data donasi ke backend jika program aktif dan user terotentikasi
+    const activeToken = currentUser?.token || getToken();
+    if (activePrograms.length > 0 && activeToken) {
+      try {
+        const programId = activePrograms[0]._id;
+        donationApi.donate(programId, {
+          amount: getActiveAmount(),
+          message: 'Donasi Paket Makanan Bergizi',
+          isAnonymous,
+        }).catch((err) => console.warn('[NutriKids API] Donasi tercatat lokal:', err.message));
+      } catch (err) {
+        console.warn('[NutriKids API] Donasi tercatat lokal:', err.message);
+      }
+    }
+
     setErrorMsg('');
     setStep(3);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -176,17 +218,23 @@ export default function DonationFlow({ onNavigateHome, onOpenAuth }) {
             <form onSubmit={handleNextToStep3} className="step2-donor-form">
               <div className="step2-donor-header">
                 <h2 className="step2-donor-title">Informasi donatur</h2>
-                <p className="step2-donor-subtitle">
-                  <span
-                    className="step2-login-link"
-                    onClick={onOpenAuth}
-                    role="button"
-                    tabIndex={0}
-                  >
-                    Masuk akun
-                  </span>{' '}
-                  atau lengkapi data di bawah ini
-                </p>
+                {currentUser ? (
+                  <p className="step2-donor-subtitle text-green-logged">
+                    <span className="logged-icon">✓</span> Terisi otomatis dari akun <strong>{currentUser.name || currentUser.username}</strong>
+                  </p>
+                ) : (
+                  <p className="step2-donor-subtitle">
+                    <span
+                      className="step2-login-link"
+                      onClick={() => onOpenAuth && onOpenAuth('login')}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Masuk akun
+                    </span>{' '}
+                    atau lengkapi data di bawah ini
+                  </p>
+                )}
               </div>
 
               {/* Nama Lengkap */}

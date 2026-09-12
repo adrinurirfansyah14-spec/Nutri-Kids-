@@ -651,3 +651,24 @@ input:checked + .slider-round:before {
     grid-template-columns: 1fr;
   }
 }
+
+.text-green-logged {
+  color: #15803d !important;
+  font-weight: 600 !important;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.logged-icon {
+  background-color: #22c55e;
+  color: #ffffff;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import nutriKidsLogo from '../assets/nutrikids-logo.png';
 import './Navbar.css';
 
@@ -7,8 +7,23 @@ export default function Navbar({
   onSelectTab,
   onOpenDonation,
   onOpenAuth,
+  currentUser = null,
+  onLogout,
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const profileMenuRef = useRef(null);
+
+  // Tutup dropdown jika klik di luar
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
+        setProfileDropdownOpen(false);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, []);
 
   const handleNavClick = (tabKey) => {
     onSelectTab(tabKey);
@@ -24,6 +39,11 @@ export default function Navbar({
     } else if (onOpenDonation) {
       onOpenDonation();
     }
+  };
+
+  const getInitial = (name) => {
+    if (!name) return 'U';
+    return name.charAt(0).toUpperCase();
   };
 
   return (
@@ -54,7 +74,7 @@ export default function Navbar({
           </button>
           <button
             type="button"
-            className={`nav-item ${activeTab === 'cek-gizi' || activeTab === 'monitoring' ? 'active' : ''}`}
+            className={`nav-item ${activeTab === 'cek-gizi' ? 'active' : ''}`}
             onClick={() => handleNavClick('cek-gizi')}
           >
             Cek Gizi
@@ -83,20 +103,67 @@ export default function Navbar({
             >
               Donasi
             </button>
-            <button
-              type="button"
-              className="btn btn-lime-figma"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenAuth('login');
-              }}
-            >
-              Masuk
-            </button>
+
+            {currentUser ? (
+              <div className="mobile-user-profile-box">
+                <div className="mobile-user-header">
+                  <span className="profile-avatar-circle">
+                    {getInitial(currentUser.name || currentUser.username)}
+                  </span>
+                  <div className="mobile-user-text">
+                    <strong>{currentUser.name || currentUser.username}</strong>
+                    <span>{currentUser.email}</span>
+                  </div>
+                </div>
+                <div className="mobile-user-actions">
+                  <button
+                    type="button"
+                    className="btn btn-pill-light btn-sm"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onSelectTab('riwayat');
+                    }}
+                  >
+                    📋 Riwayat Gizi
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-pill-light btn-sm"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenAuth('login');
+                    }}
+                  >
+                    🔄 Ganti Akun
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline-figma btn-sm"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      if (onLogout) onLogout();
+                    }}
+                  >
+                    🚪 Keluar
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-lime-figma"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenAuth('login');
+                }}
+              >
+                Masuk
+              </button>
+            )}
           </div>
         </nav>
 
-        {/* Desktop Action Buttons (Figma Frame 15) */}
+        {/* Desktop Action Buttons */}
         <div className="navbar-actions desktop-only">
           <button
             type="button"
@@ -105,13 +172,119 @@ export default function Navbar({
           >
             Donasi
           </button>
-          <button
-            type="button"
-            className="btn btn-lime-figma"
-            onClick={() => onOpenAuth('login')}
-          >
-            Masuk
-          </button>
+
+          {currentUser ? (
+            /* Logged In Profile Menu Trigger & Dropdown */
+            <div className="navbar-profile-wrap" ref={profileMenuRef}>
+              <button
+                type="button"
+                className={`navbar-profile-trigger ${profileDropdownOpen ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setProfileDropdownOpen(!profileDropdownOpen);
+                }}
+                aria-expanded={profileDropdownOpen}
+              >
+                <span className="profile-avatar-circle">
+                  {getInitial(currentUser.name || currentUser.username)}
+                </span>
+                <span className="profile-user-name">
+                  {currentUser.name || currentUser.username}
+                </span>
+                <span className={`profile-chevron ${profileDropdownOpen ? 'open' : ''}`}>
+                  ▾
+                </span>
+              </button>
+
+              {profileDropdownOpen && (
+                <div className="navbar-profile-dropdown" onClick={(e) => e.stopPropagation()}>
+                  <div className="dropdown-user-header">
+                    <span className="dropdown-avatar-big">
+                      {getInitial(currentUser.name || currentUser.username)}
+                    </span>
+                    <div className="dropdown-user-info">
+                      <strong className="dropdown-name">
+                        {currentUser.name || currentUser.username}
+                      </strong>
+                      <span className="dropdown-email">{currentUser.email}</span>
+                      <span className="dropdown-role-badge">Orang Tua Peduli Gizi</span>
+                    </div>
+                  </div>
+
+                  <div className="dropdown-divider"></div>
+
+                  <div className="dropdown-menu-list">
+                    <button
+                      type="button"
+                      className="dropdown-menu-btn"
+                      onClick={() => {
+                        setProfileDropdownOpen(false);
+                        onSelectTab('cek-gizi');
+                      }}
+                    >
+                      <span className="menu-btn-icon">🥗</span>
+                      <span>Cek Gizi Anak</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="dropdown-menu-btn"
+                      onClick={() => {
+                        setProfileDropdownOpen(false);
+                        onSelectTab('riwayat');
+                      }}
+                    >
+                      <span className="menu-btn-icon">📋</span>
+                      <span>Riwayat Cek Gizi</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="dropdown-menu-btn"
+                      onClick={() => {
+                        setProfileDropdownOpen(false);
+                        onSelectTab('donasi');
+                      }}
+                    >
+                      <span className="menu-btn-icon">💖</span>
+                      <span>Donasi NutriKids</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="dropdown-menu-btn"
+                      onClick={() => {
+                        setProfileDropdownOpen(false);
+                        onOpenAuth('login');
+                      }}
+                    >
+                      <span className="menu-btn-icon">🔄</span>
+                      <span>Ganti Akun</span>
+                    </button>
+                  </div>
+
+                  <div className="dropdown-divider"></div>
+
+                  <button
+                    type="button"
+                    className="dropdown-logout-btn"
+                    onClick={() => {
+                      setProfileDropdownOpen(false);
+                      if (onLogout) onLogout();
+                    }}
+                  >
+                    <span className="menu-btn-icon">🚪</span>
+                    <span>Keluar / Logout</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-lime-figma"
+              onClick={() => onOpenAuth('login')}
+            >
+              Masuk
+            </button>
+          )}
         </div>
 
         {/* Hamburger Menu Toggle for Mobile */}
